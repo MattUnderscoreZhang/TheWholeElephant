@@ -1,0 +1,9 @@
+.env
+*.lock
+__pypackages__
+.venv
+*.pyc
+.pdm.toml
+build/
+dist/
+singularity_logs/

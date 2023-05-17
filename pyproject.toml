@@ -7,7 +7,12 @@ description = "Non-biased AI-summarized news from primary sources."
 authors = [
     {name = "Matt Zhang", email = "set.stun@gmail.com"},
 ]
-dependencies = []
+dependencies = [
+    "openai>=0.27.6",
+    "prompt-toolkit>=3.0.38",
+    "python-dotenv>=1.0.0",
+    "termcolor>=2.3.0",
+]
 requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "MIT"}
