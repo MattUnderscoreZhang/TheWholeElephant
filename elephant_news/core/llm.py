@@ -4,7 +4,7 @@ from openai import error
 import os
 from time import sleep, time
 
-from elephant_news.log import Log
+from elephant_news.core.log import Log
 
 
 load_dotenv()  # load the OpenAI API key from a .env file
@@ -34,7 +34,7 @@ def llm_api(log: Log, model: str, temperature: float) -> str:
                 messages=[
                     {
                         "role": "user",
-                        "content": str(log.article),
+                        "content": log.article.to_json(),
                     }
                 ] + [
                     {
@@ -61,7 +61,7 @@ def llm_api(log: Log, model: str, temperature: float) -> str:
         ]:
             response = openai.Completion.create(
                 model=model,
-                prompt=str(log.article) + "\n".join([f"{m.speaker}: {m.content}" for m in log.messages]) + "assistant: ",
+                prompt=log.article.to_json() + "\n".join([f"{m.speaker}: {m.content}" for m in log.messages]) + "assistant: ",
                 temperature=temperature,
                 max_tokens=100,
                 top_p=1,

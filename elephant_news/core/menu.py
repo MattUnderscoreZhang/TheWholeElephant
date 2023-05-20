@@ -5,9 +5,9 @@ from prompt_toolkit.completion import CompleteEvent, Completer, Completion
 from prompt_toolkit.document import Document
 from prompt_toolkit import shortcuts
 
-from elephant_news.color_scheme import Colors, prompt_style, print_color
-from elephant_news.llm import llm_api
-from elephant_news.log import Log, Message, read_article
+from elephant_news.core.color_scheme import Colors, prompt_style, print_color
+from elephant_news.core.llm import llm_api
+from elephant_news.core.log import Log, Message, read_article
 
 
 commands = [

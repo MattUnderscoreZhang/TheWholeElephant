@@ -1,8 +1,8 @@
 import argparse
 
-from elephant_news.color_scheme import Colors, print_color
-from elephant_news.log import Log
-from elephant_news.menu import start_menu
+from elephant_news.core.color_scheme import Colors, print_color
+from elephant_news.core.log import Log
+from elephant_news.core.menu import start_menu
 
 
 # Define command-line arguments

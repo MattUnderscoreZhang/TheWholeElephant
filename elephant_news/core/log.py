@@ -1,10 +1,10 @@
 from dataclasses import dataclass, field
-import json
+from dataclasses_json import dataclass_json
 from pathlib import Path
 import tiktoken
 from typing import Optional
 
-from elephant_news.color_scheme import Colors, print_color
+from elephant_news.core.color_scheme import Colors, print_color
 
 
 @dataclass
@@ -16,42 +16,23 @@ class Message:
         return f"{self.speaker}: {self.content}"
 
 
+@dataclass_json
 @dataclass
 class Article:
-    title: str = ""
-    subtitle: str = ""
     author: str = ""
-    date: str = ""
-    updated: str = ""
+    content: str = ""
+    description: str = ""
+    publishedAt: str = ""
+    source: dict[str, str] = field(default_factory=dict)
+    title: str = ""
     url: str = ""
-    contents: str = ""
-
-    def __repr__(self) -> str:
-        repr = (
-            f"Title: {self.title}\n" +
-            f"Subtitle: {self.subtitle}\n" +
-            f"Author: {self.author}\n" +
-            f"Date: {self.date}\n" +
-            f"Updated: {self.updated}\n" +
-            f"URL: {self.url}\n" +
-            f"Contents: {self.contents}"
-        )
-        return repr
+    urlToImage: str = ""
 
 
 def read_article(filepath: Path) -> Article:
     try:
         with open(filepath) as f:
-            file_contents = json.loads(f.read())
-            article = Article(
-                title=file_contents["title"],
-                subtitle=file_contents["subtitle"],
-                author=file_contents["author"],
-                date=file_contents["date"],
-                updated=file_contents["updated"],
-                url=file_contents["url"],
-                contents=file_contents["contents"],
-            )
+            article = Article.from_json(f.read())
             return article
     except IsADirectoryError:
         print_color(f"Path is a directory: {filepath}\n", Colors.info)
