@@ -44,6 +44,7 @@ def read_article(filepath: Path) -> Article:
 @dataclass
 class Log:
     model: str
+    temperature: float = 0.7
     article: Optional[Article] = None
     messages: list[Message] = field(default_factory=list)
 

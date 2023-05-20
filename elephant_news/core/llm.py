@@ -15,11 +15,13 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 last_call: float = time()
 
 
-def llm_api(log: Log, model: str, temperature: float) -> str:
+def llm_api(log: Log) -> str:
     global last_call
     if time() - last_call < 1:
         sleep(1)
         last_call = time()
+    model = log.model
+    temperature = log.temperature
     try:
         if model in [
             "gpt-4",

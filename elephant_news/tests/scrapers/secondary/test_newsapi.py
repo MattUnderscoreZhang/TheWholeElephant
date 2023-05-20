@@ -1,7 +1,7 @@
 import pytest
 
 from elephant_news.core.log import Article
-from elephant_news.scrapers.newsapi import NewsApiScraper
+from elephant_news.scrapers.secondary.newsapi import NewsApiScraper
 
 
 @pytest.fixture
