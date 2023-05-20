@@ -12,6 +12,8 @@ dependencies = [
     "prompt-toolkit>=3.0.38",
     "python-dotenv>=1.0.0",
     "termcolor>=2.3.0",
+    "pathlib>=1.0.1",
+    "tiktoken>=0.4.0",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
