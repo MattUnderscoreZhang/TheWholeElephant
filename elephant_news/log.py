@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from termcolor import colored
 import tiktoken
-from typing import Optional
+from typing import Any, Optional
 
 from elephant_news.color_scheme import Colors
 from elephant_news.llm import Message
@@ -19,6 +19,18 @@ class Article:
     updated: str = ""
     url: str = ""
     contents: str = ""
+
+    def __repr__(self) -> str:
+        repr = (
+            f"Title: {self.title}\n" +
+            f"Subtitle: {self.subtitle}\n" +
+            f"Author: {self.author}\n" +
+            f"Date: {self.date}\n" +
+            f"Updated: {self.updated}\n" +
+            f"URL: {self.url}\n" +
+            f"Contents: {self.contents}"
+        )
+        return repr
 
 
 def read_article(filepath: Path) -> Article:
@@ -36,9 +48,9 @@ def read_article(filepath: Path) -> Article:
             )
             return article
     except IsADirectoryError:
-        print(f"Path is a directory: {filepath}\n", Colors.info)
+        print_color(f"Path is a directory: {filepath}\n", Colors.info)
     except FileNotFoundError:
-        print(f"File not found: {filepath}\n", Colors.info)
+        print_color(f"File not found: {filepath}\n", Colors.info)
     return Article()
 
 
@@ -50,11 +62,11 @@ class Log:
 
     def set_model(self, new_model: str) -> None:
         self.model = new_model
-        print(f"You are now talking to the {self.model} model.\n")
+        print_color(f"You are now talking to the {self.model} model.\n")
 
     def set_article(self, article: Article) -> None:
         self.article = article
-        print(f"You have pinned article \"{self.article.title}\".\n")
+        print_color(f"You have pinned article \"{self.article.title}\".\n")
 
     @property
     def messages_token_length(self) -> int:
@@ -66,9 +78,13 @@ class Log:
         return length
 
     def print(self) -> None:
+        if self.article is None:
+            print_color("No article pinned.\n", Colors.info)
+            return
+        print_color(self.article, Colors.article)
         for message in self.messages:
             color = Colors.user if message.speaker == "user" else Colors.assistant
-            builtins.print(colored(message.content, color))
+            print_color(message.content, color)
         print()
 
     def add_message(self, message: Message) -> None:
@@ -79,10 +95,14 @@ class Log:
             message = self.messages.pop()
             if message.speaker == "user":
                 break
-        print(f"Rewound to state of last message.", Colors.info)
+        print_color(f"Rewound to state of last message.", Colors.info)
         print()
 
     def clear(self):
         self.messages = []
-        print("Messages cleared.", Colors.info)
+        print_color("Messages cleared.", Colors.info)
         print()
+
+
+def print_color(content: Any = "", color: str = Colors.info, indent: int = 0, end: str = '\n'):
+    builtins.print(colored(str(content), color), end=end)
