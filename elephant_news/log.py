@@ -7,7 +7,15 @@ import tiktoken
 from typing import Any, Optional
 
 from elephant_news.color_scheme import Colors
-from elephant_news.llm import Message
+
+
+@dataclass
+class Message:
+    speaker: str
+    content: str
+
+    def __str__(self) -> str:
+        return f"{self.speaker}: {self.content}"
 
 
 @dataclass

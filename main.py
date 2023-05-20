@@ -1,13 +1,12 @@
 import argparse
 from enum import Enum, auto
-import openai
 import os
 from pathlib import Path
 
 from elephant_news.autocomplete import prompt
 from elephant_news.color_scheme import Colors
-from elephant_news.llm import Message, llm_api
-from elephant_news.log import Log, read_article, print_color
+from elephant_news.llm import llm_api
+from elephant_news.log import Message, Log, read_article, print_color
 
 
 # Define command-line arguments
@@ -88,7 +87,7 @@ def main():
             break
         elif loop_status == LoopStatus.Continue:
             continue
-        response = llm_api(log.messages, args.model, args.temperature)
+        response = llm_api(log, args.model, args.temperature)
         print_color(f"\nassistant: {response}\n", Colors.assistant, indent=2)
         log.add_message(
             Message(

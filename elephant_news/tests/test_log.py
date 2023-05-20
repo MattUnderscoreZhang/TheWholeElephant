@@ -2,8 +2,7 @@ import os
 from pathlib import Path
 import pytest
 
-from elephant_news.llm import Message
-from elephant_news.log import Article, Log, read_article
+from elephant_news.log import Article, Log, Message, read_article
 
 
 @pytest.fixture

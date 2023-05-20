@@ -1,18 +1,10 @@
-from dataclasses import dataclass
 from dotenv import load_dotenv
 import openai
 from openai import error
 import os
 from time import sleep, time
 
-
-@dataclass
-class Message:
-    speaker: str
-    content: str
-
-    def __str__(self) -> str:
-        return f"{self.speaker}: {self.content}"
+from elephant_news.log import Log
 
 
 load_dotenv()  # Load the OpenAI API key from a .env file
@@ -23,7 +15,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 last_call: float = time()
 
 
-def llm_api(messages: list[Message], model: str, temperature: float) -> str:
+def llm_api(log: Log, model: str, temperature: float) -> str:
     global last_call
     if time() - last_call < 1:
         sleep(1)
@@ -41,10 +33,15 @@ def llm_api(messages: list[Message], model: str, temperature: float) -> str:
                 model=model,
                 messages=[
                     {
+                        "role": "user",
+                        "content": str(log.article),
+                    }
+                ] + [
+                    {
                         "role": m.speaker,
                         "content": m.content
                     }
-                    for m in messages
+                    for m in log.messages
                 ],
                 temperature=temperature,
                 frequency_penalty=0,
@@ -64,7 +61,7 @@ def llm_api(messages: list[Message], model: str, temperature: float) -> str:
         ]:
             response = openai.Completion.create(
                 model=model,
-                prompt="\n".join([f"{m.speaker}: {m.content}" for m in messages]) + "assistant: ",
+                prompt=str(log.article) + "\n".join([f"{m.speaker}: {m.content}" for m in log.messages]) + "assistant: ",
                 temperature=temperature,
                 max_tokens=100,
                 top_p=1,
