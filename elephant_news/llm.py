@@ -10,7 +10,6 @@ from time import sleep, time
 class Message:
     speaker: str
     content: str
-    persist: bool = False
 
     def __str__(self) -> str:
         return f"{self.speaker}: {self.content}"

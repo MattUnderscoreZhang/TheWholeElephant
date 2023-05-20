@@ -4,10 +4,10 @@ from typing import NamedTuple
 
 class Colors(NamedTuple):
     info = "blue"
+    article = "yellow"
+    user = "cyan"
     assistant = "magenta"
-    alert = "yellow"
     warning = "red"
-    article = "cyan"
 
 
 prompt_style = Style.from_dict(
