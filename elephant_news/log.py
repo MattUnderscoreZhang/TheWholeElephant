@@ -74,6 +74,7 @@ class Log:
 
     def set_article(self, article: Article) -> None:
         self.article = article
+        self.messages = []
         print_color(f"You have pinned article \"{self.article.title}\".\n")
 
     @property
