@@ -1,6 +1,5 @@
 import argparse
 from enum import Enum, auto
-import os
 from pathlib import Path
 
 from elephant_news.autocomplete import prompt
@@ -50,32 +49,6 @@ def parse_user_input(user_input: str, log: Log) -> LoopStatus:
     return LoopStatus.Continue
 
 
-def parse_response(response: str, log: Log) -> LoopStatus:
-    if response.startswith('/show'):
-        user_input = prompt("Show assistant code? (y/n): ")
-        if user_input.lower() == "y":
-            directory = Path(os.getcwd())
-            show_args = response.split()[1].split(':')
-            code = show_code(directory, Path(show_args[0]), show_args[1], show_args[2])
-            print_color(code, Colors.info)
-            log.add_message(
-                Message(
-                    speaker="user",
-                    content=code,
-                )
-            )
-        else:
-            log.add_message(
-                Message(
-                    speaker="user",
-                    content="Access denied.",
-                )
-            )
-        return LoopStatus.NoAction
-    else:
-        return LoopStatus.NoAction
-
-
 def main():
     print_color(f"Type '/' to show available commands. Enter '/exit' to exit.\n", Colors.info)
     log = Log(model=args.model)
@@ -95,7 +68,6 @@ def main():
                 content=response.strip(),
             )
         )
-        parse_response(response, log)
 
 
 if __name__ == "__main__":
