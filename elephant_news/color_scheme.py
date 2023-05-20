@@ -1,5 +1,7 @@
+import builtins
 from prompt_toolkit.styles import Style
-from typing import NamedTuple
+from termcolor import colored
+from typing import Any, NamedTuple
 
 
 class Colors(NamedTuple):
@@ -26,3 +28,7 @@ prompt_style = Style.from_dict(
         "selected-text": "reverse underline",
     }
 )
+
+
+def print_color(content: Any = "", color: str = Colors.info):
+    builtins.print(colored(str(content), color))

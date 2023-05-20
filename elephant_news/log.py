@@ -1,12 +1,10 @@
-import builtins
 from dataclasses import dataclass, field
 import json
 from pathlib import Path
-from termcolor import colored
 import tiktoken
-from typing import Any, Optional
+from typing import Optional
 
-from elephant_news.color_scheme import Colors
+from elephant_news.color_scheme import Colors, print_color
 
 
 @dataclass
@@ -111,7 +109,3 @@ class Log:
         self.messages = []
         print_color("Messages cleared.", Colors.info)
         print()
-
-
-def print_color(content: Any = "", color: str = Colors.info, indent: int = 0, end: str = '\n'):
-    builtins.print(colored(str(content), color), end=end)

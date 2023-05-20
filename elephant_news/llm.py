@@ -7,11 +7,11 @@ from time import sleep, time
 from elephant_news.log import Log
 
 
-load_dotenv()  # Load the OpenAI API key from a .env file
+load_dotenv()  # load the OpenAI API key from a .env file
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
-# Rate limiter
+# rate limiter
 last_call: float = time()
 
 

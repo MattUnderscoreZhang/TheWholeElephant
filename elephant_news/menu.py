@@ -1,9 +1,13 @@
+from enum import Enum, auto
 import glob
+from pathlib import Path
 from prompt_toolkit.completion import CompleteEvent, Completer, Completion
 from prompt_toolkit.document import Document
 from prompt_toolkit import shortcuts
 
-from elephant_news.color_scheme import prompt_style
+from elephant_news.color_scheme import Colors, prompt_style, print_color
+from elephant_news.llm import llm_api
+from elephant_news.log import Log, Message, read_article
 
 
 commands = [
@@ -18,7 +22,7 @@ commands = [
 
 
 class CommandCompleter(Completer):
-    def get_completions(self, document: Document, complete_event: CompleteEvent):
+    def get_completions(self, document: Document, _: CompleteEvent):
         text_before_cursor = document.text_before_cursor
         words_before_cursor = text_before_cursor.split()
         current_word = document.get_word_under_cursor()
@@ -82,5 +86,54 @@ class CommandCompleter(Completer):
                 )
 
 
-def prompt(prompt_str: str) -> str:
-    return shortcuts.prompt(prompt_str, style=prompt_style, completer=CommandCompleter())
+class LoopStatus(Enum):
+    Break = auto()
+    Continue = auto()
+    NoAction = auto()
+
+
+def parse_user_input(user_input: str, log: Log) -> LoopStatus:
+    if user_input == "/exit":
+        return LoopStatus.Break
+    elif user_input.startswith("/set_model"):
+        model = user_input.split()[1]
+        log.set_model(model)
+    elif user_input.startswith("/set_article"):
+        article_path = Path(user_input.split()[1])
+        log.set_article(read_article(article_path))
+    elif user_input == "/log":
+        log.print()
+    elif user_input == "/undo":
+        log.undo()
+    elif user_input == "/clear":
+        log.clear()
+    elif user_input.startswith('/'):
+        print_color(f"Invalid command.\n", Colors.info)
+    else:
+        log.add_message(
+            Message(
+                speaker="user",
+                content=user_input.strip(),
+            )
+        )
+        return LoopStatus.NoAction
+    return LoopStatus.Continue
+
+
+def start_menu(log: Log, model: str, temperature: float) -> None:
+    while True:
+        # no newline
+        user_input = shortcuts.prompt("You: ", style=prompt_style, completer=CommandCompleter())
+        loop_status = parse_user_input(user_input, log)
+        if loop_status == LoopStatus.Break:
+            break
+        if loop_status == LoopStatus.Continue:
+            continue
+        response = llm_api(log, model, temperature)
+        print_color(f"\nassistant: {response}\n", Colors.assistant)
+        log.add_message(
+            Message(
+                speaker="assistant",
+                content=response.strip(),
+            )
+        )
