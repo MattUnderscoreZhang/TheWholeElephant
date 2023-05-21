@@ -6,7 +6,7 @@ from typing import Any, NamedTuple
 
 class Colors(NamedTuple):
     info = "blue"
-    article = "yellow"
+    data = "yellow"
     user = "cyan"
     assistant = "magenta"
     warning = "red"

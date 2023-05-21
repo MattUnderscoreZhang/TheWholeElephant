@@ -1,13 +1,27 @@
+from dataclasses import dataclass, field
+from dataclasses_json import dataclass_json
 from dotenv import load_dotenv
 import os
 import requests
 
-from elephant_news.core.log import Article
 from elephant_news.scrapers.core import Scraper
 
 
 load_dotenv()  # .env file
 API_KEY = os.getenv("NEWSAPI_KEY")
+
+
+@dataclass_json
+@dataclass
+class Article:
+    author: str = ""
+    content: str = ""
+    description: str = ""
+    publishedAt: str = ""
+    source: dict[str, str] = field(default_factory=dict)
+    title: str = ""
+    url: str = ""
+    urlToImage: str = ""
 
 
 class NewsApiScraper(Scraper):

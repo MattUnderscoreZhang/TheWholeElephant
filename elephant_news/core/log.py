@@ -3,6 +3,7 @@ from dataclasses_json import dataclass_json
 from pathlib import Path
 import tiktoken
 from typing import Optional
+from uuid import UUID, uuid4
 
 from elephant_news.core.color_scheme import Colors, print_color
 
@@ -18,44 +19,40 @@ class Message:
 
 @dataclass_json
 @dataclass
-class Article:
-    author: str = ""
-    content: str = ""
-    description: str = ""
+class Data:
+    uuid: UUID
+    title: str
+    content: str
+    summary: str = ""
     publishedAt: str = ""
-    source: dict[str, str] = field(default_factory=dict)
-    title: str = ""
-    url: str = ""
-    urlToImage: str = ""
 
 
-def read_article(filepath: Path) -> Article:
+def read_article(filepath: Path) -> Data:
     try:
         with open(filepath) as f:
-            article = Article.from_json(f.read())
-            return article
+            return Data.from_json(f.read())
     except IsADirectoryError:
         print_color(f"Path is a directory: {filepath}\n", Colors.info)
     except FileNotFoundError:
         print_color(f"File not found: {filepath}\n", Colors.info)
-    return Article()
+    return Data()
 
 
 @dataclass
 class Log:
     model: str
     temperature: float = 0.7
-    article: Optional[Article] = None
+    data: Optional[Data] = None
     messages: list[Message] = field(default_factory=list)
 
     def set_model(self, new_model: str) -> None:
         self.model = new_model
         print_color(f"You are now talking to the {self.model} model.\n")
 
-    def set_article(self, article: Article) -> None:
-        self.article = article
+    def set_data(self, data: Data) -> None:
+        self.data = data
         self.messages = []
-        print_color(f"You have pinned article \"{self.article.title}\".\n")
+        print_color(f"You are now discussing \"{self.data.title}\".\n")
 
     @property
     def messages_token_length(self) -> int:
@@ -67,10 +64,10 @@ class Log:
         return length
 
     def print(self) -> None:
-        if self.article is None:
-            print_color("No article pinned.\n", Colors.info)
+        if self.data is None:
+            print_color("No data pinned.\n", Colors.info)
             return
-        print_color(self.article, Colors.article)
+        print_color(self.data, Colors.data)
         for message in self.messages:
             color = Colors.user if message.speaker == "user" else Colors.assistant
             print_color(message.content, color)

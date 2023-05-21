@@ -2,27 +2,27 @@ import os
 from pathlib import Path
 import pytest
 
-from elephant_news.core.log import Article, Log, Message, read_article
+from elephant_news.core.log import Data, Log, Message, read_article
 
 
 @pytest.fixture
-def article():
+def data():
     root_dir = Path(os.getcwd())
-    article = read_article(root_dir / "elephant_news" / "articles" / "2023_05_17_nyt_record_heat_forecast.json")
-    return article
+    data = read_article(root_dir / "elephant_news" / "articles" / "2023_05_17_nyt_record_heat_forecast.json")
+    return data
 
 
 @pytest.fixture
 def article2():
     root_dir = Path(os.getcwd())
-    article = read_article(root_dir / "elephant_news" / "articles" / "2023_05_19_washingtonpost_debt_ceiling_talks_pause.json")
-    return article
+    data = read_article(root_dir / "elephant_news" / "articles" / "2023_05_19_washingtonpost_debt_ceiling_talks_pause.json")
+    return data
 
 
 @pytest.fixture
-def log(article: Article):
+def log(data: Data):
     log = Log("gpt-3.5-turbo")
-    log.set_article(article)
+    log.set_article(data)
     return log
 
 
@@ -30,12 +30,12 @@ def log(article: Article):
 def message():
     return Message(
         "user",
-        "Please summarize this article",
+        "Please summarize this data",
     )
 
 
-def test_read_article(article: Article):
-    assert article.title == "Heat Will Likely Soar to Record Levels in Next 5 Years, New Analysis Says"
+def test_read_article(data: Data):
+    assert data.title == "Heat Will Likely Soar to Record Levels in Next 5 Years, New Analysis Says"
 
 
 def test_log_set_model(log: Log):
@@ -44,11 +44,11 @@ def test_log_set_model(log: Log):
     assert log.model == "gpt-4"
 
 
-def test_log_set_article(log: Log, article2: Article):
-    assert log.article is not None
-    assert log.article.title == "Heat Will Likely Soar to Record Levels in Next 5 Years, New Analysis Says"
+def test_log_set_article(log: Log, article2: Data):
+    assert log.data is not None
+    assert log.data.title == "Heat Will Likely Soar to Record Levels in Next 5 Years, New Analysis Says"
     log.set_article(article2)
-    assert log.article.title == "White House, GOP resume debt ceiling talks after brief breakdown"
+    assert log.data.title == "White House, GOP resume debt ceiling talks after brief breakdown"
 
 
 def test_log_messages_token_length(log: Log, message: Message):

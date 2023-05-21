@@ -1,13 +1,13 @@
 from dataclasses import dataclass
-import datetime
-from typing import Literal
 from dataclasses_json import dataclass_json
+import datetime
 from dotenv import load_dotenv
 import os
 import requests
-from elephant_news.core.llm import llm_api
+from typing import Literal
 
-from elephant_news.core.log import Article, Log, Message
+from elephant_news.core.llm import llm_api
+from elephant_news.core.log import Data, Log, Message
 
 
 load_dotenv()  # .env file
@@ -31,8 +31,7 @@ class Bill:
 
 def today() -> str:
     date = datetime.date.today()
-    # return f"{date.year}-{date.month}-{date.day}"
-    return "2023-05-19"
+    return f"{date.year}-{date.month}-{date.day}"
 
 
 class Scraper:
@@ -52,7 +51,7 @@ class Scraper:
 
     def query(self, bills: list[Bill]) -> str:
         log = Log(model="gpt-3.5-turbo")
-        log.set_article(Article())
+        log.set_data(Data())
         log.add_message(
             Message(
                 speaker="user",
