@@ -8,11 +8,12 @@ from elephant_news.core.llm import llm_api
 from elephant_news.core.log import Log, Message, read_article
 
 
-app = Flask(__name__)
+app = Flask(__name__,  static_url_path="/", static_folder='../fe2')
 
 @app.route("/", defaults={"path": "index.html"})
 @app.route("/<path:path>")
 def static_file(path):
+    path1 = app.instance_path
     return app.send_static_file(path)
 
 

@@ -10,7 +10,7 @@ from elephant_news.core.web import app
 parser = argparse.ArgumentParser(description="Talk to LLM assistant")
 parser.add_argument("--model", type=str, default="gpt-3.5-turbo", help="model to use")
 parser.add_argument("--temperature", type=float, default=1, help="Sampling temperature for generating text")
-parser.add_argument("--interface", type=str, default="cmd", help="interface: cmd (command line) or web (web port 5000)")
+parser.add_argument("--interface", type=str, default="web", help="interface: cmd (command line) or web (web port 5000)")
 args = parser.parse_args()
 
 

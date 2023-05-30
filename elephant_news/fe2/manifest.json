@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+  "name": "The Whole Elephant News Sentiment Plugin",
+  "version": "1.0",
+  "description": "A news bias and sentiment analysis tool assisted by ChatGPT.",
+  "permissions": [
+    "tabs",
+    "http://localhost:5000/*" // Update with your server URL
+  ],
+  "background": {
+    "scripts": [ "background.js" ],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "grinning-face.png",
+    "48": "grinning-face.png",
+    "128": "grinning-face.png"
+  }
+}

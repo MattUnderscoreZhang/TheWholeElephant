@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\elephant_news",
+    "\\elephant_news\\fe2"
   ],
-  "SelectedNode": "\\C:\\Users\\sean\\Source\\Repos\\TheWholeElephant",
+  "SelectedNode": "\\main.py",
   "PreviewInSolutionExplorer": false
 }
