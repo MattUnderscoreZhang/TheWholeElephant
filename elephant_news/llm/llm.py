@@ -4,7 +4,7 @@ from openai import error
 import os
 from time import sleep, time
 
-from elephant_news.core.log import Log
+from elephant_news.llm.log import Log
 
 
 load_dotenv()  # load the OpenAI API key from a .env file
@@ -15,11 +15,13 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 last_call: float = time()
 
 
-def llm_api(log: Log, model: str, temperature: float) -> str:
+def llm_api(log: Log) -> str:
     global last_call
     if time() - last_call < 1:
         sleep(1)
         last_call = time()
+    model = log.model
+    temperature = log.temperature
     try:
         if model in [
             "gpt-4",
@@ -32,11 +34,6 @@ def llm_api(log: Log, model: str, temperature: float) -> str:
             response = openai.ChatCompletion.create(
                 model=model,
                 messages=[
-                    {
-                        "role": "user",
-                        "content": log.article.to_json(),
-                    }
-                ] + [
                     {
                         "role": m.speaker,
                         "content": m.content
@@ -61,7 +58,7 @@ def llm_api(log: Log, model: str, temperature: float) -> str:
         ]:
             response = openai.Completion.create(
                 model=model,
-                prompt=log.article.to_json() + "\n".join([f"{m.speaker}: {m.content}" for m in log.messages]) + "assistant: ",
+                prompt="\n".join([f"{m.speaker}: {m.content}" for m in log.messages]) + "assistant: ",
                 temperature=temperature,
                 max_tokens=100,
                 top_p=1,
