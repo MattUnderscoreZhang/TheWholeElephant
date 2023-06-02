@@ -6,8 +6,8 @@ import os
 import requests
 from typing import Literal
 
-from elephant_news.core.llm import llm_api
-from elephant_news.core.log import Data, Log, Message
+from elephant_news.cli.llm import llm_api
+from elephant_news.cli.log import Data, Log, Message
 
 
 load_dotenv()  # .env file

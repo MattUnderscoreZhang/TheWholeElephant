@@ -3,9 +3,9 @@ from dataclasses_json import dataclass_json
 from pathlib import Path
 import tiktoken
 from typing import Optional
-from uuid import UUID, uuid4
+from uuid import UUID
 
-from elephant_news.core.color_scheme import Colors, print_color
+from elephant_news.cli.color_scheme import Colors, print_color
 
 
 @dataclass

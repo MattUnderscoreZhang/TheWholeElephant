@@ -1,4 +1,4 @@
-from elephant_news.core.log import Data
+from elephant_news.cli.log import Data
 
 
 class Scraper:
