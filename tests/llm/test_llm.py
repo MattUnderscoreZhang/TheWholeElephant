@@ -1,7 +1,8 @@
 import pytest
 
 from elephant_news.llm.llm import llm_api
-from elephant_news.llm.log import Data, Message, Log
+from elephant_news.llm.log import Message, Log
+from elephant_news.llm.log_fn import no_print
 
 
 @pytest.fixture
@@ -22,8 +23,8 @@ def log():
     ]
     log = Log(
         model="gpt-3.5-turbo",
-        data=Data(),
         messages=messages,
+        log_fn=no_print,
     )
     return log
 
@@ -35,5 +36,6 @@ def test_llm_api(log: Log):
 
 
 def test_unknown_model(log: Log):
+    log.set_model("unknown")
     reply = llm_api(log)
     assert reply == "Specified unknown model unknown."

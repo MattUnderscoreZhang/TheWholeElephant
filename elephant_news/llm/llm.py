@@ -35,11 +35,6 @@ def llm_api(log: Log) -> str:
                 model=model,
                 messages=[
                     {
-                        "role": "user",
-                        "content": log.article.to_json(),
-                    }
-                ] + [
-                    {
                         "role": m.speaker,
                         "content": m.content
                     }
@@ -63,7 +58,7 @@ def llm_api(log: Log) -> str:
         ]:
             response = openai.Completion.create(
                 model=model,
-                prompt=log.article.to_json() + "\n".join([f"{m.speaker}: {m.content}" for m in log.messages]) + "assistant: ",
+                prompt="\n".join([f"{m.speaker}: {m.content}" for m in log.messages]) + "assistant: ",
                 temperature=temperature,
                 max_tokens=100,
                 top_p=1,
