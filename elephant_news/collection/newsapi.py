@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 import requests
 
-from elephant_news.scrapers.core import Scraper
+from elephant_news.collection.core import Scraper
 
 
 load_dotenv()  # .env file

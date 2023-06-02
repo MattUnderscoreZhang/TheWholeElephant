@@ -13,6 +13,17 @@ class Data:
     publishedAt: str = ""
 
 
+class Scraper:
+    def __init__(self):
+        ...
+
+    def scrape(self) -> list[Data]:
+        raise NotImplementedError
+
+
+# TODO: create common data format and finish this file
+
+
 # to be added to log.py when ready
 """
     def read_article(self, filepath: Path) -> Data:
