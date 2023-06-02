@@ -14,6 +14,10 @@ class LogMessageType(Enum):
 LogFn = Callable[[str, LogMessageType], None]
 
 
+def no_print(message: str, _: LogMessageType):
+    pass
+
+
 def simple_print(message: str, _: LogMessageType):
     print(message)
 

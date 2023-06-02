@@ -20,10 +20,6 @@ class Log:
     messages: list[Message] = field(default_factory=list)
     log_fn: LogFn = simple_print
 
-    def set_model(self, new_model: str) -> None:
-        self.model = new_model
-        self.log_fn(f"You are now talking to the {self.model} model.\n", LogMessageType.info)
-
     @property
     def messages_token_length(self) -> int:
         enc = tiktoken.encoding_for_model(self.model)
@@ -32,6 +28,10 @@ class Log:
             for message in self.messages
         ])
         return length
+
+    def set_model(self, new_model: str) -> None:
+        self.model = new_model
+        self.log_fn(f"You are now talking to the {self.model} model.\n", LogMessageType.info)
 
     def print(self) -> None:
         for message in self.messages:
@@ -49,10 +49,8 @@ class Log:
             message = self.messages.pop()
             if message.speaker == "user":
                 break
-        self.log_fn(f"Rewound to state of last message.", LogMessageType.info)
-        print()
+        self.log_fn(f"Rewound to state of last message.\n", LogMessageType.info)
 
     def clear(self):
         self.messages = []
-        self.log_fn("Messages cleared.", LogMessageType.info)
-        print()
+        self.log_fn("Messages cleared.\n", LogMessageType.info)

@@ -1,28 +1,12 @@
-import os
-from pathlib import Path
 import pytest
 
 from elephant_news.llm.log import Log, Message
+from elephant_news.llm.log_fn import no_print
 
 
 @pytest.fixture
-def data():
-    root_dir = Path(os.getcwd())
-    data = read_article(root_dir / "elephant_news" / "articles" / "2023_05_17_nyt_record_heat_forecast.json")
-    return data
-
-
-@pytest.fixture
-def article2():
-    root_dir = Path(os.getcwd())
-    data = read_article(root_dir / "elephant_news" / "articles" / "2023_05_19_washingtonpost_debt_ceiling_talks_pause.json")
-    return data
-
-
-@pytest.fixture
-def log(data: Data):
-    log = Log("gpt-3.5-turbo")
-    log.set_article(data)
+def log():
+    log = Log("gpt-3.5-turbo", log_fn=no_print)
     return log
 
 
@@ -34,21 +18,10 @@ def message():
     )
 
 
-def test_read_article(data: Data):
-    assert data.title == "Heat Will Likely Soar to Record Levels in Next 5 Years, New Analysis Says"
-
-
 def test_log_set_model(log: Log):
     assert log.model == "gpt-3.5-turbo"
     log.set_model("gpt-4")
     assert log.model == "gpt-4"
-
-
-def test_log_set_article(log: Log, article2: Data):
-    assert log.data is not None
-    assert log.data.title == "Heat Will Likely Soar to Record Levels in Next 5 Years, New Analysis Says"
-    log.set_article(article2)
-    assert log.data.title == "White House, GOP resume debt ceiling talks after brief breakdown"
 
 
 def test_log_messages_token_length(log: Log, message: Message):
