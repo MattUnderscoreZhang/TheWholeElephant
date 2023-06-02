@@ -1,13 +1,12 @@
 import argparse
 import glob
-from pathlib import Path
 from prompt_toolkit.completion import CompleteEvent, Completer, Completion
 from prompt_toolkit.document import Document
 from prompt_toolkit.shortcuts import prompt
+from prompt_toolkit.styles import Style
 
-from elephant_news.cli.color_scheme import Colors, prompt_style, print_color
-from elephant_news.cli.llm import llm_api
-from elephant_news.cli.log import Log, Message, read_article
+from elephant_news.llm.llm import llm_api
+from elephant_news.llm.log import Log, LogMessageType, Message
 
 
 # TODO: integrate command completion and functions into commands list
@@ -88,7 +87,23 @@ class CommandCompleter(Completer):
 
 
 def start_conversation(log: Log):
-    print_color(f"Type '/' to show available commands. Enter '/exit' to exit.\n", Colors.info)
+    log.log_fn(f"Type '/' to show available commands. Enter '/exit' to exit.\n", LogMessageType.info)
+    prompt_style = Style.from_dict(
+        {
+            # default style
+            "": "#ffdaac",
+            # prompt
+            "username": "#884444 italic",
+            "at": "#00aa00",
+            "colon": "#00aa00",
+            "pound": "#00aa00",
+            "host": "#000088 bg:#aaaaff",
+            "path": "#884444 underline",
+            # make a selection reverse/underlined
+            # (use control+space to select)
+            "selected-text": "reverse underline",
+        }
+    )
     while True:
         user_input = prompt("You: ", style=prompt_style, completer=CommandCompleter())
         if user_input == "/exit":
@@ -96,9 +111,6 @@ def start_conversation(log: Log):
         elif user_input.startswith("/set_model"):
             model = user_input.split()[1]
             log.set_model(model)
-        elif user_input.startswith("/set_article"):
-            article_path = Path(user_input.split()[1])
-            log.set_article(read_article(article_path))
         elif user_input == "/log":
             log.print()
         elif user_input == "/undo":
@@ -106,7 +118,7 @@ def start_conversation(log: Log):
         elif user_input == "/clear":
             log.clear()
         elif user_input.startswith('/'):
-            print_color(f"Invalid command.\n", Colors.info)
+            log.log_fn(f"Invalid command.\n", LogMessageType.info)
         else:
             log.add_message(
                 Message(
@@ -115,7 +127,7 @@ def start_conversation(log: Log):
                 )
             )
             response = llm_api(log)
-            print_color(f"\nassistant: {response}\n", Colors.assistant)
+            log.log_fn(f"\nassistant: {response}\n", LogMessageType.assistant)
             log.add_message(
                 Message(
                     speaker="assistant",

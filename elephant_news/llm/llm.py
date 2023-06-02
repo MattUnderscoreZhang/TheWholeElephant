@@ -4,7 +4,7 @@ from openai import error
 import os
 from time import sleep, time
 
-from elephant_news.cli.log import Log
+from elephant_news.llm.log import Log
 
 
 load_dotenv()  # load the OpenAI API key from a .env file

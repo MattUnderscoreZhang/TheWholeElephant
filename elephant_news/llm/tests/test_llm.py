@@ -1,7 +1,7 @@
 import pytest
 
-from elephant_news.cli.llm import llm_api
-from elephant_news.cli.log import Data, Message, Log
+from elephant_news.llm.llm import llm_api
+from elephant_news.llm.log import Data, Message, Log
 
 
 @pytest.fixture
