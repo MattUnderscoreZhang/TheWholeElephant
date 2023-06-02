@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 import tiktoken
 
-from elephant_news.llm.log_fn import LogFn, LogMessageType, simple_print
+from elephant_news.llm.log_fn import LogFn, LogMessageType, no_print
 
 
 @dataclass
@@ -18,7 +18,7 @@ class Log:
     model: str
     temperature: float = 0.7
     messages: list[Message] = field(default_factory=list)
-    log_fn: LogFn = simple_print
+    log_fn: LogFn = no_print
 
     @property
     def messages_token_length(self) -> int:
