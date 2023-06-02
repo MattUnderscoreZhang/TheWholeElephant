@@ -1,22 +1,18 @@
 from dataclasses import dataclass
-from dataclasses_json import dataclass_json
-import datetime
 from dotenv import load_dotenv
 import os
 import requests
 from typing import Literal
 
-from elephant_news.llm.llm import llm_api
-from elephant_news.llm.log import Data, Log, Message
+from elephant_news.utils.datetime import today
 
 
 load_dotenv()  # .env file
 API_KEY = os.getenv("CONGRESS_API_KEY")
 
 
-@dataclass_json
 @dataclass
-class Bill:
+class Data:
     congress: int
     latestAction: dict[str, str]
     number: int
@@ -29,17 +25,12 @@ class Bill:
     url: str
 
 
-def today() -> str:
-    date = datetime.date.today()
-    return f"{date.year}-{date.month}-{date.day}"
-
-
 class Scraper:
-    def scrape(self) -> list[Bill]:
+    def scrape(self) -> list[Data]:
         url = f"https://api.congress.gov/v3/bill?api_key={API_KEY}"
         results = requests.get(url).json()
         bills = [
-            Bill.from_dict(bill)
+            Data(**bill)
             for bill in results["bills"]
         ]
         bills = [
@@ -49,7 +40,8 @@ class Scraper:
         ]
         return bills
 
-    def query(self, bills: list[Bill]) -> str:
+"""
+    def query(self, bills: list[Data]) -> str:
         log = Log(model="gpt-3.5-turbo")
         log.set_data(Data())
         log.add_message(
@@ -66,3 +58,4 @@ class Scraper:
         )
         response = llm_api(log)
         return response
+"""
