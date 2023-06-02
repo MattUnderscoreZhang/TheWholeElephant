@@ -6,7 +6,8 @@ from prompt_toolkit.shortcuts import prompt
 from prompt_toolkit.styles import Style
 
 from elephant_news.llm.llm import llm_api
-from elephant_news.llm.log import Log, LogMessageType, Message
+from elephant_news.llm.log import Log, Message
+from elephant_news.llm.log_fn import LogMessageType, print_color
 
 
 # TODO: integrate command completion and functions into commands list
@@ -142,7 +143,7 @@ def main():
     parser.add_argument("--model", type=str, default="gpt-3.5-turbo", help="model to use")
     parser.add_argument("--temperature", type=float, default=1, help="Sampling temperature for generating text")
     args = parser.parse_args()
-    log = Log(model=args.model, temperature=args.temperature)
+    log = Log(model=args.model, temperature=args.temperature, log_fn=print_color)
 
     # start conversation
     start_conversation(log)
