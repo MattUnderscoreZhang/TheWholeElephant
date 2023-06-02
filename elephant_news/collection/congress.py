@@ -26,20 +26,23 @@ class Data:
 
 
 class Scraper:
-    def scrape(self) -> list[Data]:
+    def scrape(self, from_today: bool = True) -> list[Data]:
         url = f"https://api.congress.gov/v3/bill?api_key={API_KEY}"
         results = requests.get(url).json()
         bills = [
             Data(**bill)
             for bill in results["bills"]
         ]
-        bills = [
-            bill
-            for bill in bills
-            if bill.latestAction['actionDate'] == today()
-        ]
+        if from_today:
+            bills = [
+                bill
+                for bill in bills
+                if bill.latestAction['actionDate'] == today()
+            ]
         return bills
 
+
+# TODO: put this query function somewhere else
 """
     def query(self, bills: list[Data]) -> str:
         log = Log(model="gpt-3.5-turbo")
