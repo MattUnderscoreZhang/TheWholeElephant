@@ -22,7 +22,7 @@ def simple_print(message: str, _: LogMessageType):
     print(message)
 
 
-def print_color(message: str, log_message_type: LogMessageType):
+def color_print(message: str, log_message_type: LogMessageType):
     match log_message_type:
         case LogMessageType.info:
             color = "blue"
