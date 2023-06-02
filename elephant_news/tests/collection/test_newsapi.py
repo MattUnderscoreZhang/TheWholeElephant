@@ -1,19 +1,8 @@
-# TODO: fix tests
-"""
-import pytest
-
-from elephant_news.cli.log import Data
-from elephant_news.collection.newsapi import NewsApiScraper
+from elephant_news.collection import newsapi
 
 
-@pytest.fixture
-def scraper() -> NewsApiScraper:
-    scraper = NewsApiScraper()
-    return scraper
-
-
-def test_scraper(scraper: NewsApiScraper):
+def test_scraper():
+    scraper = newsapi.Scraper()
     articles = scraper.scrape()
     assert len(articles) > 0
-    assert type(articles[0]) == Data
-"""
+    assert type(articles[0]) == newsapi.Data
