@@ -1,6 +1,7 @@
 env
 .env
 *.lock
+__pycache__
 __pypackages__
 .venv
 *.pyc
