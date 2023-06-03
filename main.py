@@ -5,6 +5,7 @@ from prompt_toolkit.document import Document
 from prompt_toolkit.shortcuts import prompt
 from prompt_toolkit.styles import Style
 
+from elephant_news.browser.web import app
 from elephant_news.llm.llm import llm_api
 from elephant_news.llm.log import Log, Message
 from elephant_news.llm.log_fn import LogMessageType, color_print
@@ -140,13 +141,19 @@ def start_conversation(log: Log):
 def main():
     # set up log using command line arguments
     parser = argparse.ArgumentParser(description="Talk to LLM assistant")
-    parser.add_argument("--model", type=str, default="gpt-3.5-turbo", help="model to use")
+    parser.add_argument("--model", type=str, default="gpt-3.5-turbo", help="Model to use")
     parser.add_argument("--temperature", type=float, default=1, help="Sampling temperature for generating text")
+    parser.add_argument("--interface", type=str, default="web", help="Interface: 'cmd' (command line) or 'web' (web port 5000)")
     args = parser.parse_args()
     log = Log(model=args.model, temperature=args.temperature, log_fn=color_print)
 
-    # start conversation
-    start_conversation(log)
+    interface = args.interface
+    if interface == "cmd":
+        start_conversation(log)
+    elif interface == "cmd":
+        app.run()
+    else:
+        raise NotImplementedError
 
 
 if __name__ == "__main__":

@@ -14,6 +14,8 @@ dependencies = [
     "termcolor>=2.3.0",
     "pathlib>=1.0.1",
     "tiktoken>=0.4.0",
+    "dataclasses-json>=0.5.7",
+    "flask>=2.2.2",
     "pytest>=7.3.1",
 ]
 requires-python = ">=3.11"
