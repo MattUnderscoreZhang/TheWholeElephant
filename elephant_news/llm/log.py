@@ -16,7 +16,7 @@ class Message:
 @dataclass
 class Log:
     model: str
-    temperature: float = 0.7
+    temperature: float = 0.0
     messages: list[Message] = field(default_factory=list)
     log_fn: LogFn = no_print
 
