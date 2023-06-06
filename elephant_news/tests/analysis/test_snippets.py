@@ -2,7 +2,7 @@ import pytest
 from pprint import pprint
 
 from elephant_news.analysis import snippets
-from elephant_news.tests.analysis.article import article_text, claims, sources
+from elephant_news.tests.analysis.examples.article_2 import article_text, claims, sources
 
 
 @pytest.mark.llm

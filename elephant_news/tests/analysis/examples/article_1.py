@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from elephant_news.analysis.claims import Claim
 from elephant_news.analysis.snippets import Snippet
 from elephant_news.analysis.sources import Source
+from elephant_news.analysis.viewpoints import ClaimAnalysis
 
 
 @dataclass
@@ -362,4 +363,19 @@ snippets = [
         claim_ids=[10],
         source_ids=[7],
     ),
+]
+
+
+viewpoints = [
+    ClaimAnalysis(id=0, support_ids=[], refute_ids=[], is_opinion=False),
+    ClaimAnalysis(id=1, support_ids=[], refute_ids=[], is_opinion=True),
+    ClaimAnalysis(id=2, support_ids=[], refute_ids=[], is_opinion=True),
+    ClaimAnalysis(id=3, support_ids=[], refute_ids=[], is_opinion=False),
+    ClaimAnalysis(id=4, support_ids=[], refute_ids=[1], is_opinion=False),
+    ClaimAnalysis(id=5, support_ids=[], refute_ids=[1], is_opinion=False),
+    ClaimAnalysis(id=6, support_ids=[], refute_ids=[1], is_opinion=False),
+    ClaimAnalysis(id=7, support_ids=[], refute_ids=[], is_opinion=False),
+    ClaimAnalysis(id=8, support_ids=[6], refute_ids=[], is_opinion=False),
+    ClaimAnalysis(id=9, support_ids=[8], refute_ids=[], is_opinion=True),
+    ClaimAnalysis(id=10, support_ids=[], refute_ids=[], is_opinion=False),
 ]
