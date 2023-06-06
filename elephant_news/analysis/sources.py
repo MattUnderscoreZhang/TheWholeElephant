@@ -22,7 +22,7 @@ List all sources cited to support the sources in the article.
 Format your response as a JSON list, with the following keys:
 - id (int): an integer ID, with numbering starting from 0
 - description (str): a sentence describing what the source contains and where it's from
-- source_type (str): one of the following words: interview, speech, transcript, article, other
+- source_type (str): one of the following words: interview, speech, transcript, article, press_release, other
 - is_primary_source (bool)
 - is_available_online (bool): whether a copy of the original cited source can reasonably be expected to be found online
 
@@ -33,5 +33,4 @@ Article: '''{article}'''
     sources_text = llm_api(log)
     sources = json.loads(sources_text)
     sources = [Source(**source) for source in sources]
-    breakpoint()
     return sources
