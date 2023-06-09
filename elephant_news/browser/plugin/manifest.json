@@ -13,7 +13,7 @@
     "http://localhost:5000/*"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "service-worker.js"
   },
   "action": {
     "default_popup": "popup.html",
@@ -22,7 +22,7 @@
   "content_scripts": [
     {
       "matches": [ "http://127.0.0.1/*", "https://127.0.0.1/*" ],
-      "js": [ "content.js" ]
+      "js": [ "content-script.js" ]
     }
   ],
 
