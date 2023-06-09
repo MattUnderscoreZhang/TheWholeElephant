@@ -11,7 +11,7 @@ REDDIT_CLIENT_SECRET = os.getenv("REDDIT_CLIENT_SECRET")
 reddit = praw.Reddit(
     client_id="tGdEB115KZpDj1rOdDdNYQ",
     client_secret=REDDIT_CLIENT_SECRET,
-    user_agent="The Whole Elephant",
+    user_agent="macos:com.example.the_whole_elephant:0.0.1 (by /u/whatisthis_whereami)",
 )
 
 
