@@ -15,13 +15,13 @@ reddit = praw.Reddit(
 )
 
 
-def get_threads(subreddit_name: str, n_threads: int) -> list[Submission]:
+def get_hot_threads_from_subreddit(subreddit_name: str, n_threads: int | None = None) -> list[Submission]:
     subreddit = reddit.subreddit(subreddit_name)
     threads = subreddit.hot(limit=n_threads)
     return [thread for thread in threads]
 
 
-def test_api():
-    threads = get_threads("wallstreetbets", 10)
-    for thread in threads:
-        print(thread.title)
+def get_threads_matching_url(url: str, n_threads: int | None = None) -> list[Submission]:
+    subreddit = reddit.subreddit("all")
+    threads = subreddit.search(f"url: \"{url}\"", limit=n_threads)
+    return [thread for thread in threads]
