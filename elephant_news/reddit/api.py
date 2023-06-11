@@ -1,3 +1,4 @@
+from datetime import datetime
 from dotenv import load_dotenv
 import os
 import praw
@@ -15,19 +16,30 @@ reddit = praw.Reddit(
 )
 
 
-def get_hot_threads_from_subreddit(subreddit_name: str, n_threads: int | None = None) -> list[Submission]:
+def get_hot_submissions_from_subreddit(subreddit_name: str, n_submissions: int | None = None) -> list[Submission]:
     subreddit = reddit.subreddit(subreddit_name)
-    threads = subreddit.hot(limit=n_threads)
-    return [thread for thread in threads]
+    submissions = subreddit.hot(limit=n_submissions)
+    return [submission for submission in submissions]
 
 
-def get_threads_matching_url(url: str, n_threads: int | None = None) -> list[Submission]:
+def get_submissions_matching_url(url: str, n_submissions: int | None = None) -> list[Submission]:
     subreddit = reddit.subreddit("all")
-    threads = subreddit.search(f"url: \"{url}\"", limit=n_threads)
-    return [thread for thread in threads]
+    submissions = subreddit.search(f"url: \"{url}\"", limit=n_submissions)
+    return [submission for submission in submissions]
 
 
-def get_threads_matching_title(title: str, n_threads: int | None = None) -> list[Submission]:
+def get_submissions_matching_title(title: str, n_submissions: int | None = None) -> list[Submission]:
     subreddit = reddit.subreddit("all")
-    threads = subreddit.search(f"{title}", limit=n_threads)
-    return [thread for thread in threads]
+    submissions = subreddit.search(f"{title}", limit=n_submissions)
+    return [submission for submission in submissions]
+
+
+def check_submissions_relevance(submissions: list[Submission], title: str, url: str) -> float:
+    """
+    submission.title
+    submission.subreddit.display_name
+    str(datetime.fromtimestamp(submission.created_utc))
+    submission.url
+    submission.comments
+    """
+    raise NotImplementedError

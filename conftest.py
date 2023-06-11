@@ -6,6 +6,10 @@ def pytest_addoption(parser):
         "--llm", action="store_true",
         help="Run tests that require LLM",
     )
+    parser.addoption(
+        "--reddit", action="store_true",
+        help="Run tests that require Reddit",
+    )
 
 
 def pytest_runtest_setup(item):
