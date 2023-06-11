@@ -54,3 +54,12 @@ def test_check_submissions_relevance(submissions: list[Submission]):
     url = "https://www.cnn.com/2023/05/21/us/naacp-florida-travel-advisory/index.html"
     raise NotImplementedError
     api.check_submissions_relevance(submissions, title, url)
+
+
+def test_get_comments():
+    submission = next(api.reddit.subreddit("politics").search(f"url: https://www.cnn.com/2023/05/21/us/naacp-florida-travel-advisory/index.html", limit=1))
+    comments = api.get_submission_comments(submission)
+    breakpoint()
+
+
+# TODO: parse comments to get objections to claims from article

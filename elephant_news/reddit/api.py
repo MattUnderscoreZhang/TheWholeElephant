@@ -43,3 +43,8 @@ def check_submissions_relevance(submissions: list[Submission], title: str, url: 
     submission.comments
     """
     raise NotImplementedError
+
+
+def get_submission_comments(submission: Submission) -> list[str]:
+    submission.comments.replace_more(limit=None)
+    return [comment.body for comment in submission.comments.list()]
