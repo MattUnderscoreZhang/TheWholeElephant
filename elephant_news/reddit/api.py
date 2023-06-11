@@ -1,8 +1,11 @@
+from dataclasses import dataclass
 from datetime import datetime
 from dotenv import load_dotenv
 import os
 import praw
 from praw.reddit import Submission
+
+from elephant_news.analysis.claims import Claim
 
 
 load_dotenv()  # .env file
@@ -48,3 +51,13 @@ def check_submissions_relevance(submissions: list[Submission], title: str, url: 
 def get_submission_comments(submission: Submission) -> list[str]:
     submission.comments.replace_more(limit=None)
     return [comment.body for comment in submission.comments.list()]
+
+
+@dataclass
+class ClaimCheck:
+    claim_id: int
+    objections: list[str]
+
+
+def use_comments_to_check_claims(comments: list[str], claims: list[Claim]) -> list[ClaimCheck]:
+    raise NotImplementedError

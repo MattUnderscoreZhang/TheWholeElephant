@@ -15,3 +15,5 @@ def pytest_addoption(parser):
 def pytest_runtest_setup(item):
     if 'llm' in item.keywords and not item.config.getoption("--llm"):
         pytest.skip("need --llm option to run this test")
+    if 'reddit' in item.keywords and not item.config.getoption("--reddit"):
+        pytest.skip("need --reddit option to run this test")
