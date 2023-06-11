@@ -20,3 +20,10 @@ def test_get_threads_matching_url():
         'As someone who recently stays in Florida, I think they might have this backwards.... 🤣',
         "NAACP issues travel advisory for Florida, saying the state is 'openly hostile toward African Americans' under Gov. DeSantis' administration | CNN",
     ]
+
+
+def test_get_threads_matching_title():
+    title = "NAACP issues travel advisory for Florida, saying the state is ‘openly hostile toward African Americans’ under Gov. DeSantis’ administration"
+    threads = api.get_threads_matching_title(title, 10)
+    titles = [thread.title for thread in threads]
+    assert "NAACP issues travel advisory for Florida, saying the state is 'openly hostile toward African Americans' under Gov. DeSantis' administration" in titles

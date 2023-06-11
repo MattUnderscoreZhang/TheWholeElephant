@@ -25,3 +25,9 @@ def get_threads_matching_url(url: str, n_threads: int | None = None) -> list[Sub
     subreddit = reddit.subreddit("all")
     threads = subreddit.search(f"url: \"{url}\"", limit=n_threads)
     return [thread for thread in threads]
+
+
+def get_threads_matching_title(title: str, n_threads: int | None = None) -> list[Submission]:
+    subreddit = reddit.subreddit("all")
+    threads = subreddit.search(f"{title}", limit=n_threads)
+    return [thread for thread in threads]
