@@ -9,6 +9,7 @@ from elephant_news.llm.log import Log, Message
 class Claim:
     id: int
     claim: str
+    source: str
 
 
 def list_claims(article: str) -> list[Claim]:
@@ -18,8 +19,13 @@ The article is delimited with triple backticks.
 Answer questions about the article by following these steps:
 
 - First, identify all claims in the article text.
-Each claim should be a single sentence, as short as possible.
+Each claim should be a single sentence, as short as possible, but complete in itself without needing context from the original article.
 Break complex claims into multiple smaller claims.
+
+- Identify the source of each claim.
+Be specific, including who made this claim, and when and where they made it.
+If the source is a guess, append '(possibly)' to the source.
+If the original source is unknown, write 'unknown'.
 
 - Next, remove any empty claims.
 Format claims by escaping quotes, removing extra whitespace, and correcting capitalization.
@@ -27,6 +33,7 @@ Format claims by escaping quotes, removing extra whitespace, and correcting capi
 - Finally, format your response as a JSON list, with the following keys:
 - id (int): an integer ID, with numbering starting from 0
 - claim (str): a sentence summarizing the claim
+- source (str): where the claim comes from, according to the rules given above
 
 Article: '''{article}'''
 """

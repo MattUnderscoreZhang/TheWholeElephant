@@ -8,13 +8,14 @@ from elephant_news.analysis.viewpoints import ClaimAnalysis
 
 @dataclass
 class Article:
+    url: str
     title: str
     text: str
     related_articles: list[str]
 
 
-# from https://www.foxnews.com/media/simply-ignore-says-florida-black-business-owner-about-naacps-travel-advisory
 article = Article(
+    url = "https://www.foxnews.com/media/simply-ignore-says-florida-black-business-owner-about-naacps-travel-advisory",
     title = "‘Simply ignore it' says Florida Black business owner about NAACP's travel advisory",
     text = """
 A Florida Black business owner said travelers thinking about vacationing in the Sunshine State should ignore the NAACP’s recent travel advisory.
@@ -57,52 +58,65 @@ article_text = article.title + "\n" + article.text + "\n" + "Related articles:\n
 claims = [
     Claim(
         id=0,
-        claim='Florida Black business owner Mike Hill advises Black people to '
-        "ignore the NAACP's recent travel advisory."
+        claim='Mike Hill, a Black business owner in Florida, advises Black '
+        "people to ignore the NAACP's recent travel advisory about the "
+        'state.',
+        source='Mike Hill, owner of an independent insurance and financial '
+        'services agency in Pensacola, Florida, in an interview with Fox '
+        'News Digital.'
     ),
     Claim(
         id=1,
-        claim="The NAACP's travel advisory accuses Florida of being hostile "
-        'towards African Americans, people of color, and LGBTQ+ '
-        'individuals.'
+        claim='The NAACP issued a travel advisory accusing Florida of being '
+        'hostile towards African Americans, people of color, and LGBTQ+ '
+        'individuals.',
+        source='The NAACP in a press release.'
     ),
     Claim(
         id=2,
         claim='The NAACP issued the travel advisory in response to Governor Ron '
         "DeSantis' attempts to erase Black history and restrict "
-        'diversity, equity, and inclusion programs in Florida schools.'
+        'diversity, equity, and inclusion programs in Florida schools.',
+        source='The NAACP in a press release.'
     ),
     Claim(
         id=3,
-        claim="The NAACP's travel advisory cites various bills recently signed "
-        'by Governor DeSantis, including restrictions on abortion, the '
-        'new constitutional carry law, and the ban on funding for DEI '
-        "programs at Florida's public universities."
+        claim='The NAACP cited various bills recently signed by Governor '
+        'DeSantis, including restrictions on abortion, the new '
+        'constitutional carry law, and the ban on funding for DEI '
+        "programs at Florida's public universities.",
+        source='The NAACP in a press release.'
     ),
     Claim(
         id=4,
-        claim='Mike Hill accuses the NAACP of putting out the travel advisory '
-        'to fundraise and gain publicity.'
+        claim='Mike Hill accused the NAACP of putting out the statement to '
+        'fundraise and to use against DeSantis while he is running for '
+        'president.',
+        source='Mike Hill, owner of an independent insurance and financial '
+        'services agency in Pensacola, Florida, in an interview with Fox '
+        'News Digital.'
     ),
     Claim(
         id=5,
-        claim='Mike Hill claims the NAACP put out the statement now as fodder '
-        'to use against DeSantis while he is running for president.'
+        claim="Mike Hill claimed that the NAACP's Board of Directors chairman, "
+        'Leon W. Russell, lives in the Tampa area.',
+        source='Mike Hill, owner of an independent insurance and financial '
+        'services agency in Pensacola, Florida, in an interview with Fox '
+        'News Digital.'
     ),
     Claim(
         id=6,
-        claim="Mike Hill points out that the NAACP's Board of Directors "
-        'chairman, Leon W. Russell, lives in the Tampa area.'
+        claim="Mike Hill said that the NAACP's actions would only hurt the "
+        'organization going forward.',
+        source='Mike Hill, owner of an independent insurance and financial '
+        'services agency in Pensacola, Florida, in an interview with Fox '
+        'News Digital.'
     ),
     Claim(
         id=7,
-        claim="Governor DeSantis calls the NAACP's travel advisory a political "
-        'stunt.'
-    ),
-    Claim(
-        id=8,
-        claim="Mike Hill believes the NAACP's actions will hurt the "
-        'organization going forward.'
+        claim="Governor DeSantis called the NAACP's travel advisory a political "
+        'stunt.',
+        source='Governor Ron DeSantis on Twitter\'s "Spaces" platform.'
     ),
 ]
 

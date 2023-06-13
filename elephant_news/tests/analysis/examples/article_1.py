@@ -8,13 +8,14 @@ from elephant_news.analysis.viewpoints import ClaimAnalysis
 
 @dataclass
 class Article:
+    url: str
     title: str
     text: str
     related_articles: list[str]
 
 
-# from https://www.cnn.com/2023/05/21/us/naacp-florida-travel-advisory/index.html
 article = Article(
+    url = "https://www.cnn.com/2023/05/21/us/naacp-florida-travel-advisory/index.html",
     title = "‘Beware, your life is not valued’: NAACP travel advisory warns Florida is ‘openly hostile toward African Americans’",
     text = """
 Another advocacy group is warning people of color about traveling to Florida.
@@ -71,64 +72,78 @@ article_text = article.title + "\n" + article.text + "\n" + "Related articles:\n
 claims = [
     Claim(
         id=0,
-        claim='The NAACP has issued a travel advisory for Florida due to '
-        "Governor Ron DeSantis' policies."
+        claim='The NAACP issued a travel advisory for Florida due to Governor '
+        "Ron DeSantis' attempts to erase Black history and restrict "
+        'diversity, equity, and inclusion programs in Florida schools.',
+        source='NAACP statement'
     ),
     Claim(
         id=1,
-        claim="The travel advisory is in response to DeSantis' attempts to "
-        'erase Black history and restrict diversity, equity, and '
-        'inclusion programs in Florida schools.'
+        claim='NAACP President and CEO Derrick Johnson warned that people of '
+        'color should beware that their life is not valued in Florida.',
+        source='CNN interview with Derrick Johnson'
     ),
     Claim(
         id=2,
-        claim='The advisory warns that Florida is openly hostile towards '
-        'African Americans, people of color, and LGBTQ+ individuals.'
+        claim='DeSantis signed a new law allowing gun owners to carry a '
+        'concealed weapon without a permit.',
+        source='unknown'
     ),
     Claim(
         id=3,
-        claim='The League of United Latin American Citizens (LULAC) has also '
-        "issued a travel advisory for Florida due to DeSantis' policies."
+        claim='Florida has banned the teaching of critical race theory under '
+        'DeSantis.',
+        source='unknown'
     ),
     Claim(
         id=4,
-        claim='DeSantis has banned the teaching of critical race theory in '
-        'Florida schools.'
+        claim='DeSantis has supported legislation barring instruction that '
+        'suggests anyone is privileged or oppressed based on their race '
+        'or skin color.',
+        source='unknown'
     ),
     Claim(
         id=5,
-        claim='DeSantis has supported legislation barring instruction that '
-        'suggests anyone is privileged or oppressed based on their race '
-        'or skin color.'
+        claim="Florida's Department of Education blocked a preliminary version "
+        'of a new Advanced Placement course for high school students on '
+        'African American studies.',
+        source='unknown'
     ),
     Claim(
         id=6,
-        claim="DeSantis' administration blocked a preliminary version of a new "
-        'Advanced Placement course for high school students on African '
-        'American studies.'
+        claim='The NAACP distributed 10,000 books to 25 predominantly Black '
+        'communities across Florida in collaboration with the American '
+        'Federation of Teachers’ Reading Opens the World program after '
+        'the DeSantis administration rejected the AP African American '
+        'studies course.',
+        source='NAACP statement'
     ),
     Claim(
         id=7,
-        claim="Florida's new concealed weapon law allows gun owners to carry a "
-        'concealed weapon without a permit or training.'
+        claim="Florida's new concealed weapon law goes into effect on July 1, "
+        '2021.',
+        source='unknown'
     ),
     Claim(
         id=8,
-        claim='The NAACP distributed 10,000 books to predominantly Black '
-        "communities across Florida after DeSantis' administration "
-        'rejected the AP African American studies course.'
+        claim='The NAACP decried Florida’s new concealed weapon law, stating '
+        'that gun owners no longer have to take any training before '
+        'carrying a concealed weapon outside the home.',
+        source='NAACP statement'
     ),
     Claim(
         id=9,
-        claim='The NAACP encourages local branches and youth councils to start '
-        'community libraries to ensure access to representative '
-        'literature.'
+        claim='The NAACP said DeSantis’ actions are “in direct conflict with '
+        'the democratic ideals that our union was founded upon.”',
+        source='NAACP statement'
     ),
     Claim(
         id=10,
-        claim='The NAACP has previously issued a travel advisory for Missouri '
-        'due to a law that made it more difficult for employees to prove '
-        'their protected class.'
+        claim='The NAACP warned people of color about traveling to Missouri in '
+        '2017 after the state passed Senate Bill 43, which made it more '
+        'difficult for employees to prove their protected class, such as '
+        'race or gender.',
+        source='unknown'
     ),
 ]
 
