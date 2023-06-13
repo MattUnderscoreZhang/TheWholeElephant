@@ -1,11 +1,15 @@
 from dataclasses import dataclass
 from datetime import datetime
 from dotenv import load_dotenv
+import json
 import os
 import praw
 from praw.reddit import Submission
+import re
 
 from elephant_news.analysis.claims import Claim
+from elephant_news.llm.llm import llm_api
+from elephant_news.llm.log import Log, Message
 
 
 load_dotenv()  # .env file
@@ -60,4 +64,25 @@ class ClaimCheck:
 
 
 def use_comments_to_check_claims(comments: list[str], claims: list[Claim]) -> list[ClaimCheck]:
-    raise NotImplementedError
+    log = Log("gpt-3.5-turbo")
+    claims_text = "".join([f"{claim.id}: {claim.claim}" for claim in claims])
+    parsed_comments = [re.sub('\n +', '\n', re.sub('\n', ' ', re.sub(' +', ' ', comment))) for comment in comments]
+    comments_text = "\n".join(parsed_comments)
+    query = f"""
+A list of claims from an article are listed in triple quotes.
+Some reaction comments are listed below that.
+For each claim, summarize the objections to the claim made by the comments.
+Format your response as a JSON list, with the following keys:
+- claim_id (int): claim ID
+- objections (str): a summary of objections
+
+Claims: '''{claims_text}'''
+
+Comments: '''{comments_text}'''
+"""
+    message = Message("user", query)
+    log.add_message(message)
+    response_text = llm_api(log)
+    response = json.loads(response_text)
+    response = [ClaimCheck(**claim_check) for claim_check in response]
+    return response
