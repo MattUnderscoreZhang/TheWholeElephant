@@ -150,7 +150,7 @@ def main():
     interface = args.interface
     if interface == "cmd":
         start_conversation(log)
-    elif interface == "cmd":
+    elif interface == "web":
         app.run()
     else:
         raise NotImplementedError
