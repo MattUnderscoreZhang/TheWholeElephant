@@ -21,3 +21,13 @@ def static_file(path):
 def chat():
     message = request.json["message"]
     return {"reply": "Message Received!" + message}
+
+
+@app.route("/sendpage", methods=["POST", "GET"])
+def semdpage():
+    doc = request.json["message"]
+    url = doc['url']
+    title = doc['title']
+    body = doc['body']
+
+    return {"reply": "Analysis Complete!"}

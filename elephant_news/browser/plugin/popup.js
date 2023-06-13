@@ -1,62 +1,24 @@
-//document.querySelector("#sendButton").addEventListener("click", function () {
-//    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-//        if (tabs[0].url?.startsWith("chrome://")) return undefined;
-//        var tabId = tabs[0].id;
-//        chrome.scripting.executeScript({
-//            target: { tabId: tabId },
-//            function: function () {
-//                var innerHTML = document.documentElement.innerHTML;
-//                chrome.runtime.sendMessage({ action: "sendInnerHTML", innerHTML: innerHTML });
-//            }
-//        });
-//    });
-//});
+const messageContainer = document.getElementById("message-container");
+const userInput = document.getElementById("user-input");
+const sendButton = document.getElementById("send-btn");
+const analyzeButton = document.getElementById("analyze");
 
 
-//console.log('popup');
-//document.getElementById("sendButton").addEventListener("click", function (event) {
-//    event.preventDefault();
-
-//    var message = document.getElementById("message").value;
-
-
-//    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-//        // skip urls like "chrome://" to avoid extension error
-//        if (tabs[0].url?.startsWith("chrome://")) return undefined;
-
-//        console.log(tabs[0].title);
-//        console.log(tabs[0].url);
-
-//        var tabId = tabs[0].id;
-//        chrome.scripting.executeScript({
-//            target: { tabId: tabId },
-//            function: function () {
-//                var innerHTML = document.documentElement.innerHTML;
-//                chrome.runtime.sendMessage({ action: "sendInnerHTML", innerHTML: innerHTML });
-//            }
-//        });
-//    });
-
-
-//    //var text = document.body.innerHTML //.replace(/<\/?[^>]+(>|$)/g, "");
-
-
-//    //chrome.runtime.sendMessage({ action: "sendMessage", message: message }, function (response) {
-//    //    if (response.success) {
-//    //        console.log("Message sent successfully");
-//    //    } else {
-//    //        console.log("Error sending message");
-//    //    }
-//    //});
-//});
-
-
+analyzeButton.onclick = async function (e) {
+    let queryOptions = { active: true, currentWindow: true };
+    await chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {   
+        chrome.tabs.sendMessage(tabs[0].id, { color: "green" }, function (doc) {
+            chrome.runtime.sendMessage({ action: "sendpage", message: doc['doc'] }, function (response) {
+                if (response) {
+                   // alert(JSON.stringify(response));
+                    messageContainer.innerHTML += `<p><strong>Server response:</strong> ${response.reply}</p>`;
+                }
+            })
+        })
+    });
+};
 
 document.addEventListener("DOMContentLoaded", function () {
-    const messageContainer = document.getElementById("message-container");
-    const userInput = document.getElementById("user-input");
-    const sendButton = document.getElementById("send-btn");
-
     sendButton.addEventListener("click", function () {
         const message = userInput.value.trim();
        //var message = document.documentElement.innerHTML;
@@ -73,16 +35,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-
     function sendMessage(message) {
-         chrome.runtime.sendMessage({ action: "sendMessage", message }, function (response) {
+        chrome.runtime.sendMessage({ action: 'openpanel' });
+         chrome.runtime.sendMessage({ action: "chat", message }, function (response) {
              if (response) {
                // alert(JSON.stringify(response))
                 messageContainer.innerHTML += `<p><strong>Server response:</strong> ${response.reply}</p>`;
             }
         });
     }
-
 });
 
 // https://stackoverflow.com/questions/19758028/chrome-extension-get-dom-content
