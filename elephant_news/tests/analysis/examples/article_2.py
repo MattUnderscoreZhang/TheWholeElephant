@@ -8,13 +8,14 @@ from elephant_news.analysis.viewpoints import ClaimAnalysis
 
 @dataclass
 class Article:
+    url: str
     title: str
     text: str
     related_articles: list[str]
 
 
-# from https://www.foxnews.com/media/simply-ignore-says-florida-black-business-owner-about-naacps-travel-advisory
 article = Article(
+    url = "https://www.foxnews.com/media/simply-ignore-says-florida-black-business-owner-about-naacps-travel-advisory",
     title = "‘Simply ignore it' says Florida Black business owner about NAACP's travel advisory",
     text = """
 A Florida Black business owner said travelers thinking about vacationing in the Sunshine State should ignore the NAACP’s recent travel advisory.

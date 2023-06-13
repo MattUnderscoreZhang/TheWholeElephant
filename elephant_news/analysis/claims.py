@@ -33,7 +33,7 @@ Format claims by escaping quotes, removing extra whitespace, and correcting capi
 - Finally, format your response as a JSON list, with the following keys:
 - id (int): an integer ID, with numbering starting from 0
 - claim (str): a sentence summarizing the claim
-- source (str): where the claim comes from
+- source (str): where the claim comes from, according to the rules given above
 
 Article: '''{article}'''
 """

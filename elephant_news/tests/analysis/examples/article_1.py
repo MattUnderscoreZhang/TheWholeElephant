@@ -8,13 +8,14 @@ from elephant_news.analysis.viewpoints import ClaimAnalysis
 
 @dataclass
 class Article:
+    url: str
     title: str
     text: str
     related_articles: list[str]
 
 
-# from https://www.cnn.com/2023/05/21/us/naacp-florida-travel-advisory/index.html
 article = Article(
+    url = "https://www.cnn.com/2023/05/21/us/naacp-florida-travel-advisory/index.html",
     title = "‘Beware, your life is not valued’: NAACP travel advisory warns Florida is ‘openly hostile toward African Americans’",
     text = """
 Another advocacy group is warning people of color about traveling to Florida.
