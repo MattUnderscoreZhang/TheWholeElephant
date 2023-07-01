@@ -12,17 +12,17 @@ console.log("Whole Elephant Loading.");
 //});
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  //console.log('changing color');
-  //if (request.color === "green") {
-  //    document.body.style.backgroundColor = "green";
-  //    sendResponse({ status: "done" });
-  //}
-  //return true;
+    //console.log('changing color');
+    //if (request.color === "green") {
+    //    document.body.style.backgroundColor = "green";
+    //    sendResponse({ status: "done" });
+    //}
+    //return true;
 
-  var url = window.location.href;
-  var title = document.title;
-  var body = document.documentElement.innerHTML;
-  var doc = { url: url, title: title, body: body };
-  sendResponse({ doc: doc });
-  return true;
+    var url = window.location.href;
+    var title = document.title;
+    var body = document.documentElement.innerHTML;
+    var doc = { url: url, title: title, body: body };
+    sendResponse({ doc: doc });
+    return true;
 });
