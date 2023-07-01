@@ -11,3 +11,4 @@ dist/
 singularity_logs/
 node_modules/
 .vs/
+.DS_Store

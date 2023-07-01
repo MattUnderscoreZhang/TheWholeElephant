@@ -1,7 +1,7 @@
-const messageContainer = document.getElementById("message-container");
-const userInput = document.getElementById("user-input");
-const sendButton = document.getElementById("send-btn");
-const analyzeButton = document.getElementById("analyze");
+const messageContainer = document.getElementById("chatbox--message-container");
+const userInput = document.getElementById("chatbox--user-input");
+const sendButton = document.getElementById("chatbox--send-btn");
+const analyzeButton = document.getElementById("chatbox--analyze-btn");
 
 
 analyzeButton.onclick = async function (e) {
