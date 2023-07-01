@@ -1,6 +1,6 @@
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action === "chat" || request.action === "sendpage") {
-        fetch("http://127.0.0.1:5000/" + request.action, {
+        fetch("http://127.0.0.1:8000/" + request.action, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
