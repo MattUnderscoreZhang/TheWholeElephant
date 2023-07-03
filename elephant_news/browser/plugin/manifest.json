@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "The Whole Elephant News Analysis Plugin",
+    "name": "The Whole Elephant",
     "version": "1.0",
     "description": "Enhances news articles by providing additional context, rebuttals, bias detection, and alternate perspectives.",
     "permissions": [
@@ -12,11 +12,10 @@
     ],
     "host_permissions": ["<all_urls>"],
     "background": {
-        "service_worker": "service-worker.js"
+        "service_worker": "background/service-worker.js"
     },
     "action": {
-        "default_popup": "popup/popup.html",
-        "default_title": "Elephant Plugin"
+        "default_title": "The Whole Elephant"
     },
     "side_panel": {
         "default_path": "side_panel/panel.html"

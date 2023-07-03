@@ -7,6 +7,13 @@ function is_news_article_url(url) {
 }
 
 
+// side panel opens when icon is clicked
+chrome.sidePanel
+    .setPanelBehavior({ openPanelOnActionClick: true })
+    .catch((error) => console.error(error));
+
+
+// side panel disables and auto-closes on non-news-article URLs
 chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
     if (!tab.url) return;
     const url = new URL(tab.url);
@@ -17,10 +24,10 @@ chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
             path: "side_panel/panel.html",
             enabled: true
         });
-        await chrome.sidePanel.open(
-            OpenOptions = {},
-            (windowId) => { console.log("Opened"); }
-        );
+        //await chrome.sidePanel.open(
+            //OpenOptions = {},
+            //(windowId) => { console.log("Opened"); }
+        //);
     } else {
         await chrome.sidePanel.setOptions({
             tabId,
