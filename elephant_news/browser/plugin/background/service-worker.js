@@ -18,10 +18,9 @@ chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
     if (!tab.url) return;
     const url = new URL(tab.url);
     if (is_news_article_url(url)) {
-        console.log("Yes");
         await chrome.sidePanel.setOptions({
             tabId,
-            path: "side_panel/panel.html",
+            path: "side_panel/analysis_panel.html",
             enabled: true
         });
         //await chrome.sidePanel.open(
@@ -31,7 +30,8 @@ chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
     } else {
         await chrome.sidePanel.setOptions({
             tabId,
-            enabled: false
+            path: "side_panel/manual_panel.html",
+            enabled: true
         });
     }
 });

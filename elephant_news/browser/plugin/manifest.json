@@ -18,7 +18,7 @@
         "default_title": "The Whole Elephant"
     },
     "side_panel": {
-        "default_path": "side_panel/panel.html"
+        "default_path": "side_panel/default_panel.html"
     },
     "content_scripts": [
         {
