@@ -13,9 +13,10 @@ chrome.sidePanel
     .catch((error) => console.error(error));
 
 
-// show intro panel on installation
-chrome.runtime.onInstalled.addListener(() => {
-    chrome.sidePanel.setOptions({ path: "side_panel/intro_panel.html" });
+// show intro page on installation
+chrome.runtime.onInstalled.addListener(({reason}) => {
+    if (reason !== "install") return;
+    chrome.tabs.create({ url: "install_page.html" });
 });
 
 

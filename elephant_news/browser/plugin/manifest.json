@@ -24,8 +24,8 @@
         }
     ],
     "icons": {
-        "16": "elephant.png",
-        "48": "elephant.png",
-        "128": "elephant.png"
+        "16": "resources/elephant.png",
+        "48": "resources/elephant.png",
+        "128": "resources/elephant.png"
     }
 }
