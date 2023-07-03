@@ -6,7 +6,7 @@ from elephant_news.reddit import api
 from elephant_news.tests.analysis.examples.article_3 import article, article_text
 
 
-# @pytest.mark.reddit
+@pytest.mark.reddit
 def test_end_to_end_claim_check():
     article_claims = claims.list_claims(article_text)
     submissions = api.get_submissions_matching_url(article.url, 2)
@@ -14,7 +14,6 @@ def test_end_to_end_claim_check():
     all_claim_checks = []
     for submission in submissions:
         comments = api.get_submission_comments(submission)
-        breakpoint()
         claim_checks = api.use_comments_to_check_claims(comments, article_claims)
         all_claim_checks.extend(claim_checks)
     dict_claim_checks = defaultdict(list)

@@ -18,6 +18,9 @@
         "default_popup": "popup/popup.html",
         "default_title": "Elephant Plugin"
     },
+    "side_panel": {
+        "default_path": "side_panel/panel.html"
+    },
     "content_scripts": [
         {
             "matches": ["<all_urls>"],

@@ -1,5 +1,38 @@
+function is_news_article_url(url) {
+    const news_urls = [  // RegExp objects
+        /^https:\/\/www\.foxnews\.com\/(?!opinion\/)[^\/]+\/[^\/]+\/?.*$/
+    ]
+
+    return news_urls.some((re) => re.test(url.href));
+}
+
+
+chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
+    if (!tab.url) return;
+    const url = new URL(tab.url);
+    if (is_news_article_url(url)) {
+        console.log("Yes");
+        await chrome.sidePanel.setOptions({
+            tabId,
+            path: "side_panel/panel.html",
+            enabled: true
+        });
+        await chrome.sidePanel.open(
+            OpenOptions = {},
+            (windowId) => { console.log("Opened"); }
+        );
+    } else {
+        await chrome.sidePanel.setOptions({
+            tabId,
+            enabled: false
+        });
+    }
+});
+
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action === "chat" || request.action === "sendpage") {
+        console.log("Hello");
         fetch("http://127.0.0.1:8000/" + request.action, {
             method: "POST",
             headers: {
