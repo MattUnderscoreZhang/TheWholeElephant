@@ -13,6 +13,12 @@ chrome.sidePanel
     .catch((error) => console.error(error));
 
 
+// show intro panel on installation
+chrome.runtime.onInstalled.addListener(() => {
+    chrome.sidePanel.setOptions({ path: "side_panel/intro_panel.html" });
+});
+
+
 // side panel disables and auto-closes on non-news-article URLs
 chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
     if (!tab.url) return;
