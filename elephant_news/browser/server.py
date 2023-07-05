@@ -5,21 +5,11 @@ from pydantic import BaseModel
 app = FastAPI()
 
 
-class Chat(BaseModel):
-    message: str
+class PageInfo(BaseModel):
+    url: str
+    body: str
 
 
-@app.get("/hi")
-def hi():
-    return {"reply": "hi"}
-
-
-@app.post("/chat")
-def chat(chat: Chat):
-    message = chat.message
-    return {"reply": "Message Received!" + message}
-
-
-@app.post("/sendpage")
-def sendpage():
+@app.post("/analyze_page")
+def sendpage(page_info: PageInfo):
     return {"reply": "Analysis Complete!"}
