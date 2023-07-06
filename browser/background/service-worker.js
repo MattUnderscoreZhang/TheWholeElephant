@@ -64,3 +64,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
     return true;  // runs sendResponse asynchronously
 });
+
+
+// example of sending message and getting response
+/*
+chrome.runtime.sendMessage(
+    { action: "chat", "message": message },
+    function (response) {
+        if (response) {
+            messageContainer.innerHTML += `<p><strong>Server response:</strong> ${response.reply}</p>`;
+        }
+    }
+);
+*/
