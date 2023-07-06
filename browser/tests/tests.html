@@ -3,17 +3,18 @@
     <head>
         <title>Test</title>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/10.2.0/mocha.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/10.2.0/mocha.js"></script>
         <script> mocha.setup('bdd'); </script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.3.7/chai.js"></script>
         <script> let assert = chai.assert; </script>
     </head>
     <body>
-        <script src="../service-worker.js"></script>
-        <script src="tests.js"></script>
+        <script src="tests.js" type="module"></script>
         <div id="mocha"></div>
-        <script> mocha.run(); </script>
+        <script type="module">  // get around module deferred load (https://medium.com/dailyjs/running-mocha-tests-as-native-es6-modules-in-a-browser-882373f2ecb0)
+            mocha.run();
+        </script>
     </body>
 </html>

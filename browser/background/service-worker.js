@@ -1,3 +1,6 @@
+import {is_news_article_url} from "./is_news_article.js";
+
+
 // side panel opens when icon is clicked
 chrome.sidePanel
     .setPanelBehavior({ openPanelOnActionClick: true })
@@ -9,15 +12,6 @@ chrome.runtime.onInstalled.addListener(({reason}) => {
     if (reason !== "install") return;
     chrome.tabs.create({ url: "readme.html" });
 });
-
-
-// function to check if URL is a news article
-function is_news_article_url(url) {
-    const news_urls = [  // RegExp objects
-        /^https:\/\/www\.foxnews\.com\/(?!opinion\/)[^\/]+\/[^\/]+\/?.*$/
-    ]
-    return news_urls.some((re) => re.test(url.href));
-}
 
 
 // side panel changes if the user is looking at a news article

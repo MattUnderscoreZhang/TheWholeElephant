@@ -1,3 +1,6 @@
+import {is_news_article_url} from "../background/is_news_article.js";
+
+
 describe("is_news_article_url", function() {
     describe("Fox News", function() {
         it("Not Articles", function() {
