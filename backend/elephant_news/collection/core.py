@@ -48,14 +48,14 @@ class Scraper:
 @pytest.fixture
 def data():
     root_dir = Path(os.getcwd())
-    data = read_article(root_dir / "elephant_news" / "articles" / "2023_05_17_nyt_record_heat_forecast.json")
+    data = read_article(root_dir / "elephant_news" / "tests" / "data" / "articles" / "2023_05_17_nyt_record_heat_forecast.json")
     return data
 
 
 @pytest.fixture
 def article2():
     root_dir = Path(os.getcwd())
-    data = read_article(root_dir / "elephant_news" / "articles" / "2023_05_19_washingtonpost_debt_ceiling_talks_pause.json")
+    data = read_article(root_dir / "elephant_news" / "tests" / "data" / "articles" / "2023_05_19_washingtonpost_debt_ceiling_talks_pause.json")
     return data
 
 
