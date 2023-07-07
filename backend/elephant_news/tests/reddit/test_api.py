@@ -98,7 +98,7 @@ They still are. But they used to be too.
         "It's because they get equal treatment, not preferential treatment",
         "Why aren’t the Jewish people upset too? Isn’t teaching the holocaust banned down there?",
         '''
-Do you honestly believe that's the case? Is that really what left wing news is reporting? Its been Florida law since 94 to teach the Holocaust in all k-12 schools in Florida. Every year there is holocaust memorial week in Florida schools and just a couple years ago DeSantis passed legislation to standardize teachings that were praised by the Jewish Media. DeSantis was literally just in Israel and passed legislation to combat anti-Semitism.
+Do you honestly believe that\'s the case? Is that really what left wing news is reporting? Its been Florida law since 94 to teach the Holocaust in all k-12 schools in Florida. Every year there is holocaust memorial week in Florida schools and just a couple years ago DeSantis passed legislation to standardize teachings that were praised by the Jewish Media. DeSantis was literally just in Israel and passed legislation to combat anti-Semitism.
 
 https://www.flgov.com/2023/04/28/governor-ron-desantis-signs-enhanced-anti-antisemitism-and-anti-bds-legislation-in-israel/
 

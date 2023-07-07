@@ -4,7 +4,8 @@ from openai import error
 import os
 from time import sleep, time
 
-from elephant_news.llm.log import Log
+from elephant_news.llm.log import Log, Message
+from elephant_news.llm.log_fn import no_print
 
 
 load_dotenv()  # load the OpenAI API key from a .env file
@@ -70,3 +71,19 @@ def llm_api(log: Log) -> str:
             return str(f"Specified unknown model {model}.")
     except error.APIConnectionError as e:
         return str(e.user_message)
+
+
+def ask(question: str) -> str:
+    messages = [
+        Message(
+            speaker="user",
+            content=question,
+        ),
+    ]
+    log = Log(
+        model="gpt-3.5-turbo",
+        messages=messages,
+        log_fn=no_print,
+    )
+    reply = llm_api(log)
+    return reply

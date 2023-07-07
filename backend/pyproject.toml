@@ -2,26 +2,11 @@
 [project]
 name = "elephant_news"
 version = "0.1.0"
-description = "See every side of the news."
+description = "See every part of the story"
 authors = [
     {name = "Matt Zhang", email = "set.stun@gmail.com"},
 ]
-dependencies = [
-    "pytest>=7.4.0",
-    "openai>=0.27.8",
-    "prompt-toolkit>=3.0.39",
-    "termcolor>=2.3.0",
-    "pathlib>=1.0.1",
-    "tiktoken>=0.4.0",
-    "dataclasses-json>=0.5.9",
-    "flask>=2.3.2",
-    "praw>=7.7.0",
-    "rich>=13.4.2",
-    "python-dotenv>=1.0.0",
-    "fastapi>=0.99.1",
-    "pydantic>=1.10.11",
-    "uvicorn>=0.22.0",
-]
+dependencies = []
 requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "MIT"}
@@ -29,3 +14,4 @@ license = {text = "MIT"}
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
+
