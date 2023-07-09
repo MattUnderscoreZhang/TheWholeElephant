@@ -1,3 +1,4 @@
+from datetime import datetime
 from fastapi import FastAPI
 from pydantic import BaseModel
 
@@ -12,4 +13,4 @@ class PageInfo(BaseModel):
 
 @app.post("/analyze_page")
 def sendpage(page_info: PageInfo):
-    return {"reply": "Analysis Complete!"}
+    return f"Current time: {datetime.now()}"
