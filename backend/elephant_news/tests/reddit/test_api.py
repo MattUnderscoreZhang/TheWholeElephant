@@ -29,7 +29,7 @@ def test_get_submissions_matching_title():
     title = "NAACP issues travel advisory for Florida, saying the state is ‘openly hostile toward African Americans’ under Gov. DeSantis’ administration"
     submissions = api.get_submissions_matching_title(title, 10)
     titles = [submission.title for submission in submissions]
-    assert "NAACP issues travel advisory for Florida, saying the state is 'openly hostile toward African Americans' under Gov. DeSantis' administration" in titles
+    assert "NAACP issues travel advisory for Florida, saying the state is 'openly hostile toward African Americans' under Gov. DeSantis' administration | CNN" in titles
 
 
 @pytest.mark.reddit

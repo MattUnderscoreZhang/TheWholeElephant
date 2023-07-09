@@ -4,9 +4,11 @@ import pytest
 from elephant_news.analysis import claims
 from elephant_news.reddit import api
 from elephant_news.tests.analysis.examples.article_3 import article, article_text
+from elephant_news.utils.health_check import get_rich_print, save_test_log
 
 
 @pytest.mark.reddit
+@pytest.mark.llm
 def test_end_to_end_claim_check():
     article_claims = claims.list_claims(article_text)
     submissions = api.get_submissions_matching_url(article.url, 2)
@@ -19,4 +21,11 @@ def test_end_to_end_claim_check():
     dict_claim_checks = defaultdict(list)
     for claim_checks in all_claim_checks:
         dict_claim_checks[claim_checks.claim_id].append(claim_checks.objections)
-    breakpoint()
+    log_info = (
+        ">>> We perform an end-to-end analysis on an article.\n\n" +
+        ">>> Article text:\n" +
+        get_rich_print(article_text) + "\n" +
+        ">>> Analysis:\n" +
+        get_rich_print(dict_claim_checks)
+    )
+    save_test_log('test_end_to_end_claim_check', log_info)
