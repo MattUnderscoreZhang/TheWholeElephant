@@ -48,6 +48,7 @@ def check_submissions_relevance(submissions: list[Submission], title: str, url: 
     submission.url
     submission.comments
     """
+    # TODO: implement this
     raise NotImplementedError
 
 
@@ -62,13 +63,33 @@ class ClaimCheck:
     objections: list[str]
 
 
+def process_and_batch_comments(comments: list[str], log: Log, max_comment_batch_encoding_length: int) -> list[list[str]]:
+    parsed_comments = [re.sub('\n +', '\n', re.sub('\n', ' ', re.sub(' +', ' ', comment))) for comment in comments]
+    encoding_lengths = [log.get_encoding_length(comment + '\n') for comment in parsed_comments]
+    # TODO: figure out which comments are most important
+    # take top comments, controversial comments, and long comments without downvotes?
+    comment_batches = batch_strings_into_max_encoding_length_batches(
+        strings=parsed_comments,
+        string_encoding_lengths=encoding_lengths,
+        max_encoding_length=max_comment_batch_encoding_length,
+    )
+    return comment_batches
+
+
+def combine_claim_checks(claim_checks_1: list[ClaimCheck], claim_checks_2: list[ClaimCheck]) -> list[ClaimCheck]:
+    for claim_check_1, claim_check_2 in zip(claim_checks_1, claim_checks_2):
+        claim_check_1.objections.extend(claim_check_2.objections)
+    return claim_checks_1
+
+
 def use_comments_to_check_claims(comments: list[str], claims: list[Claim], model: str = "gpt-3.5-turbo-16k") -> list[ClaimCheck]:
     log = Log(model)
     claims_text = "\n".join([f"{claim.id}: {claim.claim}" for claim in claims])
     query = f"""
-A list of claims from an article are listed in triple quotes.
-Some reaction comments are listed below that.
-For each claim, summarize the objections to the claim made by the comments.
+A list of claims from an article are listed in triple quotes. Some reaction comments are listed below that.
+In the comments, some users may believe the claims to be inaccurate, misleading, or not representing the whole picture.
+For each claim, summarize these objections, as made by the comments.
+Return an empty string for the objections if there are none.
 Format your response as a JSON list, with the following keys:
 - claim_id (int): claim ID
 - objections (str): a summary of objections
@@ -78,14 +99,7 @@ Claims: '''\n{claims_text}\n'''
     query_encoding_length = log.get_encoding_length(query)
     max_comment_batch_encoding_length = log.get_model_max_encoding_length() - query_encoding_length - log.get_encoding_length("\nComments: '''\n'''")
     max_comment_batch_encoding_length -= len(claims) * 100  # response length
-
-    parsed_comments = [re.sub('\n +', '\n', re.sub('\n', ' ', re.sub(' +', ' ', comment))) for comment in comments]
-    encoding_lengths = [log.get_encoding_length(comment + '\n') for comment in parsed_comments]
-    comment_batches = batch_strings_into_max_encoding_length_batches(
-        strings=parsed_comments,
-        string_encoding_lengths=encoding_lengths,
-        max_encoding_length=max_comment_batch_encoding_length,
-    )
+    comment_batches = process_and_batch_comments(comments, log, max_comment_batch_encoding_length)
 
     claim_checks = []
     for comment_batch in comment_batches:
@@ -93,8 +107,44 @@ Claims: '''\n{claims_text}\n'''
         response_text = log.ask(query_and_comments)
         try:
             response = json.loads(response_text)
-            claim_checks += [ClaimCheck(**claim_check) for claim_check in response]
+            if len(claim_checks) == 0:
+                claim_checks = [ClaimCheck(**claim_check) for claim_check in response]
+            else:
+                claim_checks = combine_claim_checks(claim_checks, [ClaimCheck(**claim_check) for claim_check in response])
         except:
             # TODO: handle this case
-            breakpoint()
+            raise Exception(f"Error parsing response: {response_text}")
     return claim_checks
+
+
+def use_comments_to_check_article(comments: list[str], article: str, model: str = "gpt-3.5-turbo-16k") -> str:
+    log = Log(model)
+    query = f"""
+A news article is included below in triple quotes. Some reaction comments are listed below that.
+In the comments, some users may believe the article to be inaccurate, misleading, or not representing the whole picture.
+Using the information in the comments, write a summarized rebuttal to the article.
+You can refer to the comments as "According to commenters on Reddit".
+
+Article: '''\n{article}\n'''
+"""
+    query_encoding_length = log.get_encoding_length(query)
+    max_comment_batch_encoding_length = log.get_model_max_encoding_length() - query_encoding_length - log.get_encoding_length("\nComments: '''\n'''")
+    max_comment_batch_encoding_length -= 500  # response length
+    comment_batches = process_and_batch_comments(comments, log, max_comment_batch_encoding_length)
+
+    responses = []
+    for comment_batch in comment_batches:
+        query_and_comments = query + f"\nComments: '''\n{comment_batch}'''"
+        response = log.ask(query_and_comments)
+        responses.append(response)
+    
+    if len(responses) > 1:
+        summary_query = f"""
+A list of responses to a news article are presented below in triple quotes. Please combine them into a single response.
+
+Responses: '''\n{responses}\n'''
+"""
+        response = log.ask(summary_query)
+    else:
+        response = responses[0]
+    return response
