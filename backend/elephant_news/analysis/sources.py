@@ -1,8 +1,7 @@
 from dataclasses import dataclass
 import json
 
-from elephant_news.llm.llm import llm_api
-from elephant_news.llm.log import Log, Message
+from elephant_news.llm.llm import llm_api, Log, Message
 
 
 @dataclass

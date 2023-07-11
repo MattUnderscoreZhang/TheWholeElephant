@@ -3,8 +3,7 @@ import json
 
 from elephant_news.analysis.claims import Claim
 from elephant_news.analysis.sources import Source
-from elephant_news.llm.llm import llm_api
-from elephant_news.llm.log import Log, Message
+from elephant_news.llm.llm import llm_api, Log, Message
 
 
 @dataclass

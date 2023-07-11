@@ -6,8 +6,7 @@ from prompt_toolkit.shortcuts import prompt
 from prompt_toolkit.styles import Style
 
 from elephant_news.browser.web import app
-from elephant_news.llm.llm import llm_api
-from elephant_news.llm.log import Log, Message
+from elephant_news.llm.llm import llm_api, Log, Message
 from elephant_news.llm.log_fn import LogMessageType, color_print
 
 

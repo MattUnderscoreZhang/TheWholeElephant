@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from datetime import datetime
 from dotenv import load_dotenv
 import json
 import os
@@ -8,8 +7,8 @@ from praw.reddit import Submission
 import re
 
 from elephant_news.analysis.claims import Claim
-from elephant_news.llm.llm import llm_api
-from elephant_news.llm.log import Log, Message
+from elephant_news.llm.llm import Log
+from elephant_news.utils.text_parsing import batch_strings_into_max_encoding_length_batches
 
 
 load_dotenv()  # .env file
@@ -63,11 +62,9 @@ class ClaimCheck:
     objections: list[str]
 
 
-def use_comments_to_check_claims(comments: list[str], claims: list[Claim]) -> list[ClaimCheck]:
-    log = Log("gpt-3.5-turbo")
-    claims_text = "".join([f"{claim.id}: {claim.claim}" for claim in claims])
-    parsed_comments = [re.sub('\n +', '\n', re.sub('\n', ' ', re.sub(' +', ' ', comment))) for comment in comments]
-    comments_text = "\n".join(parsed_comments)
+def use_comments_to_check_claims(comments: list[str], claims: list[Claim], model: str = "gpt-3.5-turbo-16k") -> list[ClaimCheck]:
+    log = Log(model)
+    claims_text = "\n".join([f"{claim.id}: {claim.claim}" for claim in claims])
     query = f"""
 A list of claims from an article are listed in triple quotes.
 Some reaction comments are listed below that.
@@ -76,13 +73,28 @@ Format your response as a JSON list, with the following keys:
 - claim_id (int): claim ID
 - objections (str): a summary of objections
 
-Claims: '''{claims_text}'''
-
-Comments: '''{comments_text}'''
+Claims: '''\n{claims_text}\n'''
 """
-    message = Message("user", query)
-    log.add_message(message)
-    response_text = llm_api(log)
-    response = json.loads(response_text)
-    response = [ClaimCheck(**claim_check) for claim_check in response]
-    return response
+    query_encoding_length = log.get_encoding_length(query)
+    max_comment_batch_encoding_length = log.get_model_max_encoding_length() - query_encoding_length - log.get_encoding_length("\nComments: '''\n'''")
+    max_comment_batch_encoding_length -= len(claims) * 100  # response length
+
+    parsed_comments = [re.sub('\n +', '\n', re.sub('\n', ' ', re.sub(' +', ' ', comment))) for comment in comments]
+    encoding_lengths = [log.get_encoding_length(comment + '\n') for comment in parsed_comments]
+    comment_batches = batch_strings_into_max_encoding_length_batches(
+        strings=parsed_comments,
+        string_encoding_lengths=encoding_lengths,
+        max_encoding_length=max_comment_batch_encoding_length,
+    )
+
+    claim_checks = []
+    for comment_batch in comment_batches:
+        query_and_comments = query + f"\nComments: '''\n{comment_batch}'''"
+        response_text = log.ask(query_and_comments)
+        try:
+            response = json.loads(response_text)
+            claim_checks += [ClaimCheck(**claim_check) for claim_check in response]
+        except:
+            # TODO: handle this case
+            breakpoint()
+    return claim_checks

@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup as BS
 from dataclasses import dataclass
 import json
 
-from elephant_news.llm.llm import ask
+from elephant_news.llm.llm import Log
 
 
 URL = str
@@ -22,7 +22,8 @@ class Article:
 def extract_text(html: str) -> str:
     soup = BS(html, 'html.parser')
     article_text = soup.get_text()
-    clean_text = ask(f"""
+    log = Log("gpt-3.5-turbo")
+    clean_text = log.ask(f"""
         Please take the text in triple quotes below, extracted from a website, and return a cleanly formatted article with the irrelevant text removed.
         Make sure to remove newlines and other formatting symbols.
 
@@ -31,11 +32,13 @@ def extract_text(html: str) -> str:
         '''
     """)
     # TODO: add test
+    # TODO: add error handling
     return clean_text
 
 
 def extract_article(text: str) -> Article:
-    reply = ask(f"""
+    log = Log("gpt-3.5-turbo")
+    reply = log.ask(f"""
         Please take the news article text in triple quotes below, and extract information in the following JSON format, where URL is a str type.
 
         {{
@@ -60,6 +63,7 @@ def extract_article(text: str) -> Article:
     """)
     article = Article(**json.loads(reply))
     # TODO: add test
+    # TODO: add error handling
     return article
 
 

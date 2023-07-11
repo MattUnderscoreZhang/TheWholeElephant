@@ -1,5 +1,5 @@
 import pytest
-from elephant_news.utils.text_parsing import remove_newlines, break_into_list
+from elephant_news.utils.text_parsing import remove_newlines, break_into_list, batch_strings_into_max_encoding_length_batches
 
 
 @pytest.fixture
@@ -23,3 +23,16 @@ def test_break_into_list(text: str):
     assert my_list[5] == "The NAACP decried Florida\'s new concealed weapon law, which allows gun owners to carry a concealed weapon without a permit or training."
     assert my_list[6] == "The NAACP urged members to consider holding conventions outside of Florida due to DeSantis\' harmful policies."
     assert my_list[7] == "The NAACP previously issued a travel advisory for Missouri in 2017 after the state passed a law making it more difficult for employees to prove discrimination."
+
+
+def test_batch_strings_into_max_encoding_length_batches():
+    for strings, max_encoding_length, expected_batches in [
+        (["a", "b", "c", "d"], 2, [["a", "b"], ["c", "d"]]),
+        (["a", "bc", "de", "f"], 3, [["a", "bc"], ["de", "f"]]),
+        (["a", "bc", "de", "f"], 4, [["a", "bc"], ["de", "f"]]),
+        (["a", "bc", "de", "f"], 5, [["a", "bc", "de"], ["f"]]),
+        (["a", "bc", "def", "g"], 2, [["a"], ["bc"], ["g"]]),
+    ]:
+        string_encoding_lengths = [len(string) for string in strings]
+        batches = batch_strings_into_max_encoding_length_batches(strings, string_encoding_lengths, max_encoding_length)
+        assert batches == expected_batches
