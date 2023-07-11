@@ -18,6 +18,21 @@ class Article:
     images: dict[str, URL]
     videos: dict[str, URL]
 
+    def __str__(self) -> str:
+        repr = (
+            self.headline + "\n" +
+            self.sub_headline + "\n" +
+            "Author: " + self.author + "\n\n" +
+            self.text + "\n\n"
+        )
+        if len(self.links) > 0:
+            repr += "Links: " + "\n".join([f"{key}: {value}" for key, value in self.links.items()]) + "\n\n"
+        if len(self.images) > 0:
+            repr += "Images: " + "\n".join([f"{key}: {value}" for key, value in self.images.items()]) + "\n\n"
+        if len(self.videos) > 0:
+            repr += "Videos:" + "\n".join([f"{key}: {value}" for key, value in self.videos.items()])
+        return repr
+
 
 def extract_text(html: str) -> str:
     soup = BS(html, 'html.parser')

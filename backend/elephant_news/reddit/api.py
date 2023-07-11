@@ -118,6 +118,9 @@ Claims: '''\n{claims_text}\n'''
 
 
 def use_comments_to_check_article(comments: list[str], article: str, model: str = "gpt-3.5-turbo-16k") -> str:
+    if len(comments) == 0:
+        return ""
+
     log = Log(model)
     query = f"""
 A news article is included below in triple quotes. Some reaction comments are listed below that.
@@ -151,7 +154,7 @@ Responses: '''\n{responses}\n'''
 
 
 def reddit_article_check(article_url: str, article_text: str) -> str:
-    max_n_threads = 2
+    max_n_threads = 20
     submissions = get_submissions_matching_url(article_url, max_n_threads)
     all_article_checks = []
     for submission in submissions:
