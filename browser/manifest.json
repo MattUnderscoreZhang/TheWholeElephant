@@ -1,0 +1,32 @@
+{
+    "manifest_version": 3,
+    "name": "The Whole Elephant",
+    "version": "1.0",
+    "description": "Enhances news articles by providing additional context, rebuttals, bias detection, and alternate perspectives.",
+    "permissions": [
+        "contextMenus",
+        "scripting",
+        "sidePanel",
+        "tabCapture",
+        "tabs"
+    ],
+    "host_permissions": ["<all_urls>"],
+    "background": {
+        "service_worker": "background/service-worker.js",
+        "type": "module"
+    },
+    "action": {
+        "default_title": "The Whole Elephant"
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["tab/content-script.js"]
+        }
+    ],
+    "icons": {
+        "16": "resources/elephant.png",
+        "48": "resources/elephant.png",
+        "128": "resources/elephant.png"
+    }
+}

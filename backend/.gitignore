@@ -1,0 +1,6 @@
+__pycache__/
+__pypackages__/
+.pdm.toml
+.env
+.venv
+logs/

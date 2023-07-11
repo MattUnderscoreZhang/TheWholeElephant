@@ -9,7 +9,3 @@ In our modern day, staying informed on current events is like feeling an elephan
 We believe that AI can help solve these problems. Though a human can not read and understand the entire world's stream of information, an AI can. Furthermore, an AI can compare coverage of events across traditional news organizations and find biases and motivated reporting.
 
 By making our code open-source, we hope to build a trustworthy platform that can help people see the whole elephant, and understand our world in a more complete way.
-
-# Installation
-
-In the root directory, create a file called ".env" containing a single line: "OPENAI_API_KEY=sk-[YOUR_KEY_HERE]".

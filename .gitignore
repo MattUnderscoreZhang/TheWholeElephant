@@ -1,4 +1,3 @@
-env
 .env
 *.lock
 __pycache__
@@ -8,7 +7,6 @@ __pypackages__
 .pdm.toml
 build/
 dist/
-singularity_logs/
 node_modules/
 .vs/
 .DS_Store
