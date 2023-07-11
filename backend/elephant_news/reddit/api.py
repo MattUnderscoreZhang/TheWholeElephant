@@ -148,3 +148,22 @@ Responses: '''\n{responses}\n'''
     else:
         response = responses[0]
     return response
+
+
+def reddit_article_check(article_url: str, article_text: str) -> str:
+    max_n_threads = 2
+    submissions = get_submissions_matching_url(article_url, max_n_threads)
+    all_article_checks = []
+    for submission in submissions:
+        comments = get_submission_comments(submission)
+        article_check = use_comments_to_check_article(comments, article_text)
+        all_article_checks.append(article_check)
+
+    log = Log("gpt-3.5-turbo-16k")
+    summary_query = f"""
+A list of responses to a news article are presented below in triple quotes. Please summarize them into a single response.
+
+Responses: '''\n{all_article_checks}\n'''
+    """
+    response = log.ask(summary_query)
+    return response
