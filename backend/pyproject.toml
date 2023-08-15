@@ -6,7 +6,17 @@ description = "See every part of the story"
 authors = [
     {name = "Matt Zhang", email = "set.stun@gmail.com"},
 ]
-dependencies = []
+dependencies = [
+    "bs4>=0.0.1",
+    "pytest>=7.4.0",
+    "termcolor>=2.3.0",
+    "openai>=0.27.8",
+    "tiktoken>=0.4.0",
+    "praw>=7.7.1",
+    "load-dotenv>=0.1.0",
+    "fastapi>=0.101.1",
+    "uvicorn>=0.23.2",
+]
 requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "MIT"}
